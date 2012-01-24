@@ -27,13 +27,13 @@ public class Simulator
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;    
 
     // List of animals in the field.
-    private List<Animal> animals;
+    private static List<Animal> animals;
     // The current state of the field.
-    private Field field;
+    private static Field field;
     // The current step of the simulation.
-    private int step;
+    private static int step;
     // A graphical view of the simulation.
-    private SimulatorView simview;
+    private static SimulatorView simview;
     
     /**
      * Construct a simulation field with default size.
@@ -61,27 +61,23 @@ public class Simulator
         	this.width=width1;
         }
         
-        this.animals = new ArrayList<Animal>();
-        this.field = new Field(this.depth, this.width);
+        Simulator.animals = new ArrayList<Animal>();
+        Simulator.field = new Field(this.depth, this.width);
 
         // Create a view of the state of each location in the field.
-        this.simview = new SimulatorView(this.depth, this.width);
-        this.simview.setColor(Rabbit.class, Color.orange);
-        this.simview.setColor(Fox.class, Color.blue);
+        Simulator.simview = new SimulatorView(this.depth, this.width);
+        Simulator.simview.setColor(Rabbit.class, Color.orange);
+        Simulator.simview.setColor(Fox.class, Color.blue);
         
         // Setup a valid starting point.
         reset();
-    }
-    
-    public SimulatorView getSimulatorView(){
-    	return this.simview;
     }
     
     /**
      * Run the simulation from its current state for a reasonably long period,
      * e.g. 500 steps.
      */
-    public void runLongSimulation()
+    public static void runLongSimulation()
     {
         simulate(500);
     }
@@ -91,9 +87,9 @@ public class Simulator
      * Stop before the given number of steps if it ceases to be viable.
      * @param numSteps The number of steps to run for.
      */
-    public void simulate(int numSteps)
+    public static void simulate(int numSteps)
     {
-        for(int step1 = 1; step1 <= numSteps && this.simview.isViable(this.field); step1++) {
+        for(int step1 = 1; step1 <= numSteps && Simulator.simview.isViable(Simulator.field); step1++) {
             simulateOneStep();
         }
     }
@@ -112,14 +108,14 @@ public class Simulator
      * Iterate over the whole field updating the state of each
      * fox and rabbit.
      */
-    public void simulateOneStep()
+    public static void simulateOneStep()
     {
-        this.step++;
+        Simulator.step++;
 
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<Animal>();        
         // Let all rabbits act.
-        for(Iterator<Animal> it = this.animals.iterator(); it.hasNext(); ) {
+        for(Iterator<Animal> it = Simulator.animals.iterator(); it.hasNext(); ) {
             Animal animal = it.next();
             animal.act(newAnimals);
             if(! animal.isAlive()) {
@@ -128,42 +124,42 @@ public class Simulator
         }
                
         // Add the newly born foxes and rabbits to the main lists.
-        this.animals.addAll(newAnimals);
+        Simulator.animals.addAll(newAnimals);
 
-        this.simview.showStatus(this.step, this.field);
+        Simulator.simview.showStatus(Simulator.step, Simulator.field);
     }
         
     /**
      * Reset the simulation to a starting position.
      */
-    public void reset()
+    public static void reset()
     {
-        this.step = 0;
-        this.animals.clear();
+        Simulator.step = 0;
+        Simulator.animals.clear();
         populate();
         
         // Show the starting state in the view.
-        this.simview.showStatus(this.step, this.field);
+        Simulator.simview.showStatus(Simulator.step, Simulator.field);
     }
     
     /**
      * Randomly populate the field with foxes and rabbits.
      */
-    private void populate()
+    private static void populate()
     {
         Random rand = Randomizer.getRandom();
-        this.field.clear();
-        for(int row = 0; row < this.field.getDepth(); row++) {
-            for(int col = 0; col < this.field.getWidth(); col++) {
+        Simulator.field.clear();
+        for(int row = 0; row < Simulator.field.getDepth(); row++) {
+            for(int col = 0; col < Simulator.field.getWidth(); col++) {
                 if(rand.nextDouble() <= FOX_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Fox fox = new Fox(true, this.field, location);
-                    this.animals.add(fox);
+                    Fox fox = new Fox(true, Simulator.field, location);
+                    Simulator.animals.add(fox);
                 }
                 else if(rand.nextDouble() <= RABBIT_CREATION_PROBABILITY) {
                     Location location = new Location(row, col);
-                    Rabbit rabbit = new Rabbit(true, this.field, location);
-                    this.animals.add(rabbit);
+                    Rabbit rabbit = new Rabbit(true, Simulator.field, location);
+                    Simulator.animals.add(rabbit);
                 }
                 // else leave the location empty.
             }

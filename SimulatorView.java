@@ -1,6 +1,9 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,7 +17,7 @@ import java.util.Map;
  * @author Hylke de Vries
  * @version 1.0
  */
-public class SimulatorView extends JPanel
+public class SimulatorView extends JPanel implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -27,7 +30,8 @@ public class SimulatorView extends JPanel
 
     private final String STEP_PREFIX = "Step: ";
     private final String POPULATION_PREFIX = "Population: ";
-    private JLabel stepLabel, population;
+    private final String VERSION_PREFIX = "Version 0.0";
+    private JLabel stepLabel, population, lblVersion;
     private FieldView fieldView;
     
     // A map for storing colors for participants in the simulation
@@ -37,35 +41,133 @@ public class SimulatorView extends JPanel
     private FieldStats stats;
     
     //A JFrame for the view
+    private int height, width;
     private JFrame frame;
-
+    private JPanel panel;
     /**
      * Create a view of the given width and height.
-     * @param height The simulation's height.
-     * @param width  The simulation's width.
+     * @param height1 The simulation's height.
+     * @param width1  The simulation's width.
      */
 	@SuppressWarnings({ "rawtypes", "static-access" })
-	public SimulatorView(int height, int width)
+	public SimulatorView(int height1, int width1)
     {
 		this.frame = new JFrame();
+		this.panel = new JPanel();
+		this.height=height1;
+		this.width=width1;
 		
         this.stats = new FieldStats();
         this.colors = new LinkedHashMap<Class, Color>();
         
-        //setTitle("Fox and Rabbit Simulation");
+        this.frame.setTitle("Fox and Rabbit Simulation");
         this.stepLabel = new JLabel(this.STEP_PREFIX, JLabel.CENTER);
         this.population = new JLabel(this.POPULATION_PREFIX, JLabel.CENTER);
+        this.lblVersion = new JLabel(this.VERSION_PREFIX, JLabel.LEFT);
         
-        setLocation(500, 25);
+        this.fieldView = new FieldView(this.height, this.width);
         
-        this.fieldView = new FieldView(height, width);
-
-        this.frame.add(this.stepLabel, BorderLayout.NORTH);
-        this.frame.add(this.fieldView, BorderLayout.CENTER);
-        this.frame.add(this.population, BorderLayout.SOUTH);
+        this.panel.setLayout(new BorderLayout());
+        this.panel.add(this.stepLabel, BorderLayout.NORTH);
+        this.panel.add(this.fieldView, BorderLayout.CENTER);
+        this.panel.add(this.population, BorderLayout.SOUTH);
+        this.panel.setVisible(true);
+        
+        this.frame.setJMenuBar(makeMenuBar());
+        this.frame.add(this.panel, BorderLayout.CENTER);
+        this.frame.add(this.makeWestBorder(), BorderLayout.WEST);
+        this.frame.add(this.lblVersion, BorderLayout.SOUTH);
         this.frame.pack();
         this.frame.setVisible(true);
+        
+        int[] location = centerFrame();
+        this.frame.setLocation(location[0], location[1]);
+        
+        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+	
+	public int[] centerFrame(){
+		int[] place = new int[] {1,1};
+        int frameHeight = this.frame.getHeight();
+        int frameWidth = this.frame.getWidth();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenHeight = dim.height;
+        int screenWidth = dim.width;
+
+        place[0] = ((screenWidth-frameWidth)/2);
+        place[1] = ((screenHeight-frameHeight)/2);
+        
+        return place;
+    }
+	
+	/**
+	 * Makes a JPanel with a BoxLayout.
+	 * Contains buttons
+	 * 
+	 * @return JPanel
+	 */
+	private static JPanel makeWestBorder() {
+		JPanel panel = new JPanel();
+		JPanel westborder = new JPanel();
+		
+		//Make buttons
+		JButton btnStart1 = new JButton("Step 1");
+		btnStart1.addActionListener(
+				new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Simulator.simulateOneStep();
+					}	
+				}
+		);
+		JButton btnStart100 = new JButton("Step 100");
+		btnStart100.addActionListener(
+				new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Simulator.simulate(100);
+					}	
+				}
+		);
+		
+		//Make frames
+		panel.add(btnStart1);
+		panel.add(btnStart100);
+		panel.setLayout(new GridLayout(0,1));
+		
+		westborder.add(panel);
+		westborder.setVisible(true);
+		
+		return westborder;
+	}
+	
+	/**
+	 * Makes the menubar
+	 * 
+	 * @return JMenuBar
+	 */
+	private JMenuBar makeMenuBar(){
+		JMenuBar menuBar = new JMenuBar();
+		
+		JMenu menuMenu1 = new JMenu("Menu1");
+			JMenuItem openItem = new JMenuItem("Openen");
+			openItem.addActionListener(this);
+			menuMenu1.add(openItem);
+			JMenuItem quitItem = new JMenuItem("Afsluiten");
+			quitItem.addActionListener(this);
+			menuMenu1.add(quitItem);
+				menuBar.add(menuMenu1);
+		JMenu menuMenu2 = new JMenu("Menu2");
+			JMenuItem menu2Item = new JMenuItem("Menu2Item");
+			menuMenu2.add(menu2Item);
+				menuBar.add(menuMenu2);
+		JMenu menuHelp = new JMenu("Help");
+			JMenuItem helpItem = new JMenuItem("Help");
+			menuHelp.add(helpItem);
+				menuBar.add(menuHelp);
+		
+		return menuBar;
+	}
     
     /**
      * Define a color to be used for a given class of animal.
@@ -158,10 +260,10 @@ public class SimulatorView extends JPanel
         /**
          * Create a new FieldView component.
          */
-        public FieldView(int height, int width)
+        public FieldView(int height1, int width1)
         {
-            this.gridHeight = height;
-            this.gridWidth = width;
+            this.gridHeight = height1;
+            this.gridWidth = width1;
             this.size = new Dimension(0, 0);
         }
 
@@ -226,5 +328,17 @@ public class SimulatorView extends JPanel
             }
         }
     }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object command = e.getActionCommand();
+		
+		if (command!=null){
+			System.out.println("Geen actie voor command bekend!\n	Command = \""+command+"\";\n	"+e+"\n");
+		}
+		else{
+			System.out.println("Command is 'null'!\n	"+e);
+		}
+	}
 }
 
