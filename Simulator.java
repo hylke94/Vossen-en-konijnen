@@ -89,17 +89,15 @@ public class Simulator
      */
     public static void simulate(int numSteps)
     {
-        for(int step1 = 1; step1 <= numSteps && Simulator.simview.isViable(Simulator.field); step1++) {
-            simulateOneStep();
-        }
+        for(int step1 = 1; step1 <= numSteps && Simulator.simview.isViable(Simulator.field); step1++)
+        simulateOneStep();
     }
     
-    @SuppressWarnings("unused")
-	private static void pause(int i) {
+	public static void pause(int i) {
     	try {
     		Thread.sleep(i);}
-    	catch (InterruptedException e1) {
-    		e1.printStackTrace();
+    	catch (InterruptedException e) {
+    		e.printStackTrace();
     	}
 	}
 
@@ -127,6 +125,8 @@ public class Simulator
         Simulator.animals.addAll(newAnimals);
 
         Simulator.simview.showStatus(Simulator.step, Simulator.field);
+        
+        //pause(100);
     }
         
     /**

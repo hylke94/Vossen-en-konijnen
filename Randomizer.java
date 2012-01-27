@@ -9,7 +9,7 @@ import java.util.Random;
 public class Randomizer
 {
     // The default seed for control of randomization.
-    private static final int SEED = 1111;
+    private static final long SEED = System.currentTimeMillis();
     // A shared Random object, if required.
     private static final Random rand = new Random(SEED);
     // Determine whether a shared random generator is to be provided.

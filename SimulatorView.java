@@ -129,10 +129,35 @@ public class SimulatorView extends JPanel implements ActionListener
 					}	
 				}
 		);
+		final JTextField aantalStappen = new JTextField();
+		JButton btnSimuleer = new JButton("Simuleer");
+		btnSimuleer.addActionListener(
+				new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						try{
+							String aantalstappen = aantalStappen.getText();
+							int aantal = Integer.parseInt(aantalstappen);
+							
+							if (aantal<=0)
+								System.out.println("Aantal dagen mag geen 0 zijn!");
+							else{
+								Simulator.simulate(aantal);
+							}
+						}
+						catch (Exception exc){
+							System.out.println("Voer een positief getal in!");
+						}
+						
+					}	
+				}
+		);
 		
 		//Make frames
 		panel.add(btnStart1);
 		panel.add(btnStart100);
+		panel.add(aantalStappen);
+		panel.add(btnSimuleer);
 		panel.setLayout(new GridLayout(0,1));
 		
 		westborder.add(panel);

@@ -2,7 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 @SuppressWarnings("unused")
-public class JUnitTest {
+public class JUnitTester {
 
 	@SuppressWarnings("static-method")
 	@Test
