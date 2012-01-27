@@ -152,10 +152,12 @@ public class SimulatorView extends JPanel implements ActionListener
 					}	
 				}
 		);
+		JLabel emptyLabel = new JLabel();
 		
 		//Make frames
 		panel.add(btnStart1);
 		panel.add(btnStart100);
+		panel.add(emptyLabel);
 		panel.add(aantalStappen);
 		panel.add(btnSimuleer);
 		panel.setLayout(new GridLayout(0,1));

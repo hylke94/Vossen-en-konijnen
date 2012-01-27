@@ -16,7 +16,7 @@ public class Tester {
 			width = Integer.parseInt(args[1]);
 		}
 		try{
-			sim = new Simulator(/*heigth,width*/);
+			sim = new Simulator(heigth,width);
 		}
 		catch (Exception e){
 			System.out.println(e);

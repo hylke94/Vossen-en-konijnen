@@ -26,10 +26,14 @@ public class Simulator
     // The probability that a rabbit will be created in any given grid position.
     private static final double RABBIT_CREATION_PROBABILITY = 0.08;
     // The probability that a bear will be created in any given grid position.
-    private static final double BEAR_CREATION_PROBABILITY = 0.01;    
+    private static final double BEAR_CREATION_PROBABILITY = 0.05;    
+    // The probability that a bear will be created in any given grid position.
+    private static final double HUNTER_CREATION_PROBABILITY = 0.05;    
 
     // List of animals in the field.
     private static List<Animal> animals;
+    // List of animals in the field.
+    private static List<Hunter> hunters;
     // The current state of the field.
     private static Field field;
     // The current step of the simulation.
@@ -64,6 +68,7 @@ public class Simulator
         }
         
         Simulator.animals = new ArrayList<Animal>();
+        Simulator.hunters = new ArrayList<Hunter>();
         Simulator.field = new Field(this.depth, this.width);
 
         // Create a view of the state of each location in the field.
@@ -71,6 +76,7 @@ public class Simulator
         Simulator.simview.setColor(Rabbit.class, Color.orange);
         Simulator.simview.setColor(Fox.class, Color.blue);
         Simulator.simview.setColor(Bear.class, Color.red);
+        Simulator.simview.setColor(Hunter.class, Color.black);
         
         // Setup a valid starting point.
         reset();
@@ -123,9 +129,21 @@ public class Simulator
                 it.remove();
             }
         }
+        
+        // Provide space for newborn hunters.
+        List<Hunter> newHunters = new ArrayList<Hunter>();        
+        // Let all rabbits act.
+        for(Iterator<Hunter> it = Simulator.hunters.iterator(); it.hasNext(); ) {
+            Hunter hunter = it.next();
+            hunter.act(newHunters);
+            if(! hunter.isAlive()) {
+                it.remove();
+            }
+        }
                
         // Add the newly born foxes and rabbits to the main lists.
         Simulator.animals.addAll(newAnimals);
+        Simulator.hunters.addAll(newHunters);
 
         Simulator.simview.showStatus(Simulator.step, Simulator.field);
         
@@ -168,6 +186,11 @@ public class Simulator
                     Location location = new Location(row, col);
                     Bear bear = new Bear(true, Simulator.field, location);
                     Simulator.animals.add(bear);
+                }
+                else if(rand.nextDouble() <= HUNTER_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Hunter hunter = new Hunter(true, Simulator.field, location);
+                    Simulator.hunters.add(hunter);
                 }
                 // else leave the location empty.
             }
