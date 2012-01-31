@@ -14,16 +14,16 @@ public class Bear extends Animal
     // Characteristics shared by all foxes (static fields).
     
     // The age at which a bear can start to breed.
-    private static final int BREEDING_AGE = 10;
+    private static final int BREEDING_AGE = 5;
     // The age to which a bear can live.
-    private static final int MAX_AGE = 150;
+    private static final int MAX_AGE = 17;
     // The likelihood of a bear breeding.
-    private static final double BREEDING_PROBABILITY = 0.35;
+    private static final double BREEDING_PROBABILITY = 0.06;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 5;
+    private static final int MAX_LITTER_SIZE = 2;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int BEAR_FOOD_VALUE = 8;
+    private static final int BEAR_FOOD_VALUE = 6;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
     
@@ -83,28 +83,6 @@ public class Bear extends Animal
             }
         }
     }
-
-    /**
-     * Increase the age. This could result in the fox's death.
-     */
-    private void incrementAge()
-    {
-        this.age++;
-        if(this.age > MAX_AGE) {
-            setDead();
-        }
-    }
-    
-    /**
-     * Make this fox more hungry. This could result in the fox's death.
-     */
-    private void incrementHunger()
-    {
-        this.foodLevel--;
-        if(this.foodLevel <= 0) {
-            setDead();
-        }
-    }
     
     /**
      * Tell the fox to look for rabbits adjacent to its current location.
@@ -128,7 +106,7 @@ public class Bear extends Animal
                     // Remove the dead fox from the field.
                     return where;
                 }
-            }/*
+            }
             if(animal instanceof Rabbit) {
                 Rabbit rabbit = (Rabbit) animal;
                 if(rabbit.isAlive()) { 
@@ -137,7 +115,7 @@ public class Bear extends Animal
                     // Remove the dead fox from the field.
                     return where;
                 }
-            }*/
+            }
         }
         return null;
     }
@@ -159,6 +137,11 @@ public class Bear extends Animal
             Bear young = new Bear(false, field, loc);
             newBears.add(young);
         }
+    }
+    
+    @Override
+    protected int getFoodlevel(){
+    	return this.foodLevel;
     }
     
     @Override

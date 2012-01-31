@@ -7,7 +7,7 @@ import java.util.Random;
  * @author David J. Barnes and Michael Kolling
  * @version 2008.03.30
  */
-public abstract class Animal
+public abstract class Animal implements Actor
 {
     // Whether the animal is alive or not.
     private boolean alive;
@@ -19,6 +19,8 @@ public abstract class Animal
     protected int age;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
+    
+    
     
     /**
      * Create a new animal at location in field.
@@ -107,7 +109,7 @@ public abstract class Animal
     /**
      * Increase the age. This could result in the animal's death.
      */
-    private void incrementAge()
+    protected void incrementAge()
     {
         this.age++;
         if(this.age > getMaxAge()) {
@@ -115,6 +117,18 @@ public abstract class Animal
         }
     }
     abstract protected int getMaxAge();
+    
+    /**
+     * Make this fox more hungry. This could result in the fox's death.
+     */
+    protected void incrementHunger()
+    {
+        int foodlevel = getFoodlevel()-1;
+        if(foodlevel <= 0) {
+            setDead();
+        }
+    }
+    abstract protected int getFoodlevel();
     
     /**
      * Generate a number representing the number of births,

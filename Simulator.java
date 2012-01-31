@@ -28,7 +28,7 @@ public class Simulator
     // The probability that a bear will be created in any given grid position.
     private static final double BEAR_CREATION_PROBABILITY = 0.05;    
     // The probability that a bear will be created in any given grid position.
-    private static final double HUNTER_CREATION_PROBABILITY = 0.05;    
+    private static final double HUNTER_CREATION_PROBABILITY = 0.01;    
 
     // List of animals in the field.
     private static List<Animal> animals;
@@ -40,6 +40,9 @@ public class Simulator
     private static int step;
     // A graphical view of the simulation.
     private static SimulatorView simview;
+    
+    // Variabels for the animated simulation
+    private static boolean run;
     
     /**
      * Construct a simulation field with default size.
@@ -101,14 +104,6 @@ public class Simulator
         for(int step1 = 1; step1 <= numSteps && Simulator.simview.isViable(Simulator.field); step1++)
         simulateOneStep();
     }
-    
-	public static void pause(int i) {
-    	try {
-    		Thread.sleep(i);}
-    	catch (InterruptedException e) {
-    		e.printStackTrace();
-    	}
-	}
 
 	/**
      * Run the simulation from its current state for a single step.
@@ -122,20 +117,23 @@ public class Simulator
         // Provide space for newborn animals.
         List<Animal> newAnimals = new ArrayList<Animal>();        
         // Let all rabbits act.
-        for(Iterator<Animal> it = Simulator.animals.iterator(); it.hasNext(); ) {
-            Animal animal = it.next();
-            animal.act(newAnimals);
-            if(! animal.isAlive()) {
-                it.remove();
-            }
+        try{
+        	for(Iterator<Animal> it = Simulator.animals.iterator(); it.hasNext(); ) {
+        		Animal animal = it.next();
+        		animal.act(newAnimals);
+        		if(! animal.isAlive()) {
+        			it.remove();
+        		}
+        	}
         }
-        
-        // Provide space for newborn hunters.
-        List<Hunter> newHunters = new ArrayList<Hunter>();        
+        catch (Exception e){
+        	System.out.println(e);
+        }
+               
         // Let all rabbits act.
         for(Iterator<Hunter> it = Simulator.hunters.iterator(); it.hasNext(); ) {
             Hunter hunter = it.next();
-            hunter.act(newHunters);
+            hunter.act();
             if(! hunter.isAlive()) {
                 it.remove();
             }
@@ -143,7 +141,6 @@ public class Simulator
                
         // Add the newly born foxes and rabbits to the main lists.
         Simulator.animals.addAll(newAnimals);
-        Simulator.hunters.addAll(newHunters);
 
         Simulator.simview.showStatus(Simulator.step, Simulator.field);
         
@@ -155,12 +152,17 @@ public class Simulator
      */
     public static void reset()
     {
-        Simulator.step = 0;
-        Simulator.animals.clear();
-        populate();
-        
-        // Show the starting state in the view.
-        Simulator.simview.showStatus(Simulator.step, Simulator.field);
+    	if (run==false){
+    		Simulator.step = 0;
+    		Simulator.animals.clear();
+    		populate();
+    		
+    		// Show the starting state in the view.
+    		Simulator.simview.showStatus(Simulator.step, Simulator.field);
+    	}
+    	else{
+    		System.out.println("U kunt nu niet resetten, want de simulatie drait nog!");
+    	}
     }
     
     /**
@@ -196,5 +198,42 @@ public class Simulator
             }
         }
     }
+    
+    public static void setRun(boolean b){
+    	run = b;
+    }
+    
+    public static boolean getRun(){
+    	return run;
+    }
+    
+    /**
+     * Methode om de applicatie te laten runnen
+     */
+    public static void start(){
+    	Thread thread = new Thread(new Runnable(){
+			@Override
+			public void run(){
+    			setRun(true);
+    			while (getRun()==true){
+    				simulate(1);
+    				//simulateOneStep();
+    				pause(100);
+    			}
+    		}
+    	});
+    	thread.start();
+    }
+    public static void stop(){
+    	run = false;
+    }
+    
+	public static void pause(int i) {
+    	try {
+    		Thread.sleep(i);}
+    	catch (InterruptedException e) {
+    		e.printStackTrace();
+    	}
+	}
 }
 
