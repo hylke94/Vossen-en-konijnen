@@ -116,19 +116,19 @@ public class SimulatorView extends JPanel implements ActionListener
 				new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						if (Simulator.getRun()) Simulator.stop();
 						Simulator.simulateOneStep();
 					}	
-				}
-		);
+				});
 		JButton btnStart100 = new JButton("Step 100");
 		btnStart100.addActionListener(
 				new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						if (Simulator.getRun()) Simulator.stop();
 						Simulator.simulate(100);
 					}	
-				}
-		);
+				});
 		final JTextField aantalStappen = new JTextField();
 		JButton btnSimuleer = new JButton("Simuleer");
 		btnSimuleer.addActionListener(
@@ -142,25 +142,64 @@ public class SimulatorView extends JPanel implements ActionListener
 							if (aantal<=0)
 								System.out.println("Aantal dagen mag geen 0 zijn!");
 							else{
+								if (Simulator.getRun()) Simulator.stop();
 								Simulator.simulate(aantal);
 							}
 						}
 						catch (Exception exc){
 							System.out.println("Voer een positief getal in!");
 						}
-						
-					}	
-				}
-		);
-		JLabel emptyLabel = new JLabel();
+					}
+				});
+		final JButton btnStart = new JButton("Start");
+		btnStart.addActionListener(
+				new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e){
+						if (Simulator.getRun()) {}//System.out.println("De Simulatie loopt al!");
+						else Simulator.start();
+					}
+				});
+		final JButton btnStop = new JButton("Stop");
+		btnStop.addActionListener(
+				new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e){
+						if (Simulator.getRun()) Simulator.stop();
+					}
+				});
+		final JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(
+				new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e){
+						if (Simulator.getRun()) Simulator.stop();
+						Simulator.reset();
+					}
+				});
+		
+		//An empty label, to create an empty line in the buttonmenu
+		JLabel emptyLabel1 = new JLabel();
+		JLabel emptyLabel2 = new JLabel();
+		JLabel emptyLabel3 = new JLabel();
 		
 		//Make frames
 		panel.add(btnStart1);
 		panel.add(btnStart100);
-		panel.add(emptyLabel);
+		
+		panel.add(emptyLabel1);
 		panel.add(aantalStappen);
 		panel.add(btnSimuleer);
+		
+		panel.add(emptyLabel2);
+		panel.add(btnStart);
+		panel.add(btnStop);
+		
+		panel.add(emptyLabel3);
+		panel.add(btnReset);
+		
 		panel.setLayout(new GridLayout(0,1));
+		
 		
 		westborder.add(panel);
 		westborder.setVisible(true);

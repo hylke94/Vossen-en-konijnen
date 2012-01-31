@@ -12,7 +12,7 @@ public class Hunter implements Actor {
     // The hunters age.
     private int age;
     // The hunters max-age.
-    private static final int MAX_AGE = 70;
+    private static final int MAX_AGE = 100;
     
     private static final Random rand = Randomizer.getRandom();
     
@@ -35,13 +35,11 @@ public class Hunter implements Actor {
      * whatever it wants/needs to do.
      * @param newAnimals A list to add newly born animals to.
      */
-    public void act(List<Hunter> newHunters)
+    public void act()
     {
     	incrementAge();
         if(isAlive()) {            
-            // Move towards a source of food if found.
-            Location currentLocation = getLocation();
-            Location newLocation = findPrey(this.location);
+            Location newLocation = findPrey();
             if(newLocation == null) { 
                 // No food found - try to move to a free location.
                 newLocation = getField().freeAdjacentLocation(this.location);
@@ -125,17 +123,16 @@ public class Hunter implements Actor {
     /**
      * Tell the fox to look for rabbits adjacent to its current location.
      * Only the first live rabbit is eaten.
-     * @param location Where in the field it is located.
      * @return Where food was found, or null if it wasn't.
      */
-    private Location findPrey(Location location)
+    private Location findPrey()
     {
-        Field field = getField();
-        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Field currentField = getField();
+        List<Location> adjacent = currentField.adjacentLocations(getLocation());
         Iterator<Location> it = adjacent.iterator();
         while(it.hasNext()) {
             Location where = it.next();
-            Object animal = field.getObjectAt(where);
+            Object animal = currentField.getObjectAt(where);
             if(animal instanceof Animal) {
                 Animal prey = (Animal) animal;
                 if(prey.isAlive()) { 
