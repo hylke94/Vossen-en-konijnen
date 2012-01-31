@@ -1,4 +1,7 @@
+package VK.model;
 import java.util.*;
+
+import VK.view.View;
 
 /**
  * 

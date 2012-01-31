@@ -1,4 +1,7 @@
+package VK.view;
 import javax.swing.*;
+
+import VK.model.Model;
 
 /**
  * 

@@ -1,4 +1,4 @@
-package nl.hanze.t12.life.view;
+package view;
 
 import javax.swing.*;
 import nl.hanze.t12.life.logic.*;

@@ -1,4 +1,8 @@
+package VK.controller;
 import javax.swing.*;
+
+import VK.model.Model;
+
 import java.awt.event.*;
 
 /**

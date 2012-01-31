@@ -1,3 +1,4 @@
+package VK.simulator;
 import java.util.HashMap;
 
 /**

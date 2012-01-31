@@ -1,6 +1,11 @@
+package VK.animals;
 import java.util.List;
 import java.util.Iterator;
 import java.util.Random;
+
+import VK.simulator.Field;
+import VK.simulator.Location;
+import VK.simulator.Randomizer;
 
 /**
  * A simple model of a fox.

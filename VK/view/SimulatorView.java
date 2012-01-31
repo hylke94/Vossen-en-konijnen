@@ -1,8 +1,13 @@
+package VK.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+
+import VK.simulator.Field;
+import VK.simulator.FieldStats;
+import VK.simulator.Simulator;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

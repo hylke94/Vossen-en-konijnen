@@ -1,3 +1,8 @@
+package VK.actors;
+
+import VK.simulator.Field;
+import VK.simulator.Location;
+
 public interface Actor {
 	
 	// Whether the animal is alive or not.

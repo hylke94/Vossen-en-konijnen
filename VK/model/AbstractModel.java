@@ -1,7 +1,9 @@
-package nl.hanze.t12.life.logic;
+package model;
 
 import nl.hanze.t12.life.view.*;
 import java.util.*;
+
+import View.AbstractView;
 
 public abstract class AbstractModel {
 	private List<AbstractView> views;

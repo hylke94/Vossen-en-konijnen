@@ -1,10 +1,14 @@
+package VK;
+
+import VK.simulator.Simulator;
+
 /**
  * Een klasse om de applicatie te testen/runnen
  * 
  * @author Hyke de Vries
  * @version 1.0
  */
-public class Tester {
+public class Starter {
 	
 	private static int heigth = 0;
 	private static int width = 0;
