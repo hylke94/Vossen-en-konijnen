@@ -27,11 +27,11 @@ public class Field
      * @param depth1 The depth of the field.
      * @param width1 The width of the field.
      */
-    public Field(int depth1, int width1)
+    public Field(int newDepth, int newWidth)
     {
-        this.depth = depth1;
-        this.width = width1;
-        this.field = new Object[depth1][width1];
+        this.depth = newDepth;
+        this.width = newWidth;
+        this.field = new Object[newDepth][newWidth];
     }
     
     /**

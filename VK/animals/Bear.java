@@ -21,13 +21,13 @@ public class Bear extends Animal
     // The age at which a bear can start to breed.
     private static final int BREEDING_AGE = 5;
     // The age to which a bear can live.
-    private static final int MAX_AGE = 17;
+    private static final int MAX_AGE = 15;
     // The likelihood of a bear breeding.
-    private static final double BREEDING_PROBABILITY = 0.06;
+    private static final double BREEDING_PROBABILITY = 0.065;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 2;
-    // The food value of a single rabbit. In effect, this is the
-    // number of steps a fox can go before it has to eat again.
+    // The food value of a single bear. In effect, this is the
+    // number of steps a bear can go before it has to eat again.
     private static final int BEAR_FOOD_VALUE = 6;
     // A shared random number generator to control breeding.
     private static final Random rand = Randomizer.getRandom();
@@ -95,7 +95,8 @@ public class Bear extends Animal
      * @param location Where in the field it is located.
      * @return Where food was found, or null if it wasn't.
      */
-    private Location findFood(Location location)
+    @SuppressWarnings("unused")
+	private Location findFood(Location location)
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());

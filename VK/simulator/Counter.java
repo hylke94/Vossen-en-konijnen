@@ -19,9 +19,9 @@ public class Counter
      * Provide a name for one of the simulation types.
      * @param name1  A name, e.g. "Fox".
      */
-    public Counter(String name1)
+    public Counter(String newName)
     {
-        this.name = name1;
+        this.name = newName;
         this.count = 0;
     }
     
@@ -57,4 +57,3 @@ public class Counter
         this.count = 0;
     }
 }
-

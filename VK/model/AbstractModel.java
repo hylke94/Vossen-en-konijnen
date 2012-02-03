@@ -1,22 +1,23 @@
-package model;
+package VK.model;
 
-import nl.hanze.t12.life.view.*;
 import java.util.*;
 
-import View.AbstractView;
+import VK.main.RunException;
+import VK.view.AbstractView;
 
 public abstract class AbstractModel {
+	
 	private List<AbstractView> views;
 	
 	public AbstractModel() {
-		views=new ArrayList<AbstractView>();
+		this.views=new ArrayList<AbstractView>();
 	}
 	
 	public void addView(AbstractView view) {
-		views.add(view);
+		this.views.add(view);
 	}
 	
-	public void notifyViews() {
-		for(AbstractView v: views) v.updateView();
+	protected void notifyViews() {
+		for(AbstractView v: this.views) v.updateView();
 	}
 }

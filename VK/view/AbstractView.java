@@ -1,21 +1,31 @@
-package view;
+package VK.view;
 
 import javax.swing.*;
-import nl.hanze.t12.life.logic.*;
+
+import VK.main.RunException;
+import VK.model.Model;
 
 public abstract class AbstractView extends JPanel {
-	protected LifeLogic life;
 
-	public AbstractView(LifeLogic life) {
-		this.life=life;
-		life.addView(this);
+	private static final long serialVersionUID = 1L;
+	
+	protected Model model;
+
+	public AbstractView(Model newModel) {
+		this.model=newModel;
+		this.model.addView(this);
 	}
 	
-	public LifeLogic getModel() {
-		return life;
+	public Model getModel() {
+		return this.model;
 	}
 	
-	public void updateView() {
-		repaint();
+	public void updateView() throws RunException {
+		try{
+			repaint();
+		}
+		catch (Exception exc){
+			throw new RunException("View repainten/updaten is mislukt.");
+		}
 	}
 }

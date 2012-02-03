@@ -95,7 +95,8 @@ public class Fox extends Animal
      * @param location Where in the field it is located.
      * @return Where food was found, or null if it wasn't.
      */
-    private Location findFood(Location location)
+    @SuppressWarnings("unused")
+	private Location findFood(Location location)
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());

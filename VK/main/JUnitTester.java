@@ -1,7 +1,10 @@
-package VK;
+package VK.main;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+
+import VK.Starter;
+import VK.simulator.Simulator;
 
 @SuppressWarnings("unused")
 public class JUnitTester {
@@ -11,6 +14,7 @@ public class JUnitTester {
 	public void test00() {
 		String[] test = new String[] {};
 		Starter.main(test);
+		Simulator.runLongSimulation();
 	}
 
 	@SuppressWarnings("static-method")
@@ -18,6 +22,7 @@ public class JUnitTester {
 	public void test50() {
 		String[] test = new String[] {"50","50"};
 		Starter.main(test);
+		Simulator.runLongSimulation();
 	}
 
 	@SuppressWarnings("static-method")
@@ -25,6 +30,7 @@ public class JUnitTester {
 	public void test100() {
 		String[] test = new String[] {"100","100"};
 		Starter.main(test);
+		Simulator.runLongSimulation();
 	}
 
 	@SuppressWarnings("static-method")
@@ -32,5 +38,6 @@ public class JUnitTester {
 	public void test150() {
 		String[] test = new String[] {"150","150"};
 		Starter.main(test);
+		Simulator.runLongSimulation();
 	}
 }

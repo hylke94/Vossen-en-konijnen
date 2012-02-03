@@ -1,6 +1,8 @@
 package VK.view;
-import javax.swing.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import VK.main.RunException;
 import VK.model.Model;
 
 /**
@@ -10,25 +12,36 @@ import VK.model.Model;
  */
 
 @SuppressWarnings("serial")
-public class View extends JPanel {
-	private Model model;
+public class View extends AbstractView implements ActionListener {
 	
-	public View(Model newModel) {
-		this.model=newModel;
-		this.model.addView(this);
-		setSize(200, 200);
-		setVisible(true);
+	AbstractView animatedView;
+	
+    public View(Model newModel) {
+		super(newModel);
+		this.animatedView = new AnimatedView(this.model);
+		
+		this.add(this.animatedView);
+		this.setVisible(true);
+    }
+	
+	@Override
+	public void actionPerformed(ActionEvent e){
+		Object command = e.getActionCommand();
+		
+		if (command=="Afsluiten"){
+			System.exit(0);
+		}
+		else{
+			System.out.println("Geen actie voor command bekend!\n	Command = \""+command+"\";\n	"+e+"\n");
+		}
 	}
 	
 	public void setModel(Model newModel) {
 		this.model=newModel;
 	}
 	
-	public Model getModel() {
-		return this.model;
-	}
-	
-	public void updateView() {
+	@Override
+	public void updateView() throws RunException {
 		repaint();
 	}
 }

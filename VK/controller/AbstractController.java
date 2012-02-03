@@ -1,15 +1,16 @@
-package controller;
+package VK.controller;
 
 import javax.swing.*;
-import nl.hanze.t12.life.logic.*;
+
+import VK.model.Model;
 
 public abstract class AbstractController extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	protected LifeLogic life;
+	protected Model model;
 	
-	public AbstractController(LifeLogic life) {
-		this.life=life;
+	public AbstractController(Model newModel) {
+		this.model=newModel;
 	}
 }

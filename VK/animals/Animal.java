@@ -52,7 +52,8 @@ public abstract class Animal implements Actor
      * Check whether the animal is alive or not.
      * @return true if the animal is still alive.
      */
-    public boolean isAlive()
+    @Override
+	public boolean isAlive()
     {
         return this.alive;
     }
@@ -61,7 +62,8 @@ public abstract class Animal implements Actor
      * Indicate that the animal is no longer alive.
      * It is removed from the field.
      */
-    public void setDead()
+    @Override
+	public void setDead()
     {
         this.alive = false;
         if(this.location != null) {
@@ -75,7 +77,8 @@ public abstract class Animal implements Actor
      * Return the animal's location.
      * @return The animal's location.
      */
-    public Location getLocation()
+    @Override
+	public Location getLocation()
     {
         return this.location;
     }
@@ -84,7 +87,8 @@ public abstract class Animal implements Actor
      * Return the animal's field.
      * @return The animal's field.
      */
-    public Field getField()
+    @Override
+	public Field getField()
     {
         return this.field;
     }
@@ -93,7 +97,8 @@ public abstract class Animal implements Actor
      * Place the animal at the new location in the given field.
      * @param newLocation The animal's new location.
      */
-    public void setLocation(Location newLocation)
+    @Override
+	public void setLocation(Location newLocation)
     {
         if(this.location != null) {
             this.field.clear(this.location);
