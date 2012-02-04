@@ -98,7 +98,7 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
      * @throws RunException 
      */
     @Override
-	public void showStatus(int step, Field field) throws RunException
+	public void showStatus(int step, Field field)
     {
         if(!isVisible()) {
             setVisible(true);

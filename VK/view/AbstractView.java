@@ -2,7 +2,6 @@ package VK.view;
 
 import javax.swing.*;
 
-import VK.main.RunException;
 import VK.model.Model;
 
 public abstract class AbstractView extends JPanel {
@@ -20,12 +19,7 @@ public abstract class AbstractView extends JPanel {
 		return this.model;
 	}
 	
-	public void updateView() throws RunException {
-		try{
-			repaint();
-		}
-		catch (Exception exc){
-			throw new RunException("View repainten/updaten is mislukt.");
-		}
+	public void updateView(){
+		repaint();
 	}
 }

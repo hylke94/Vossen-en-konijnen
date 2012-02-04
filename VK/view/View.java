@@ -41,7 +41,7 @@ public class View extends AbstractView implements ActionListener {
 	}
 	
 	@Override
-	public void updateView() throws RunException {
+	public void updateView() {
 		repaint();
 	}
 }

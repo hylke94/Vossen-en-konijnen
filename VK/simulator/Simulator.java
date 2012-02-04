@@ -195,7 +195,7 @@ public class Simulator implements ActionListener
      * e.g. 500 steps.
      * @throws RunException 
      */
-    public static void runLongSimulation() throws RunException
+    public static void runLongSimulation()
     {
         simulate(500);
     }
@@ -206,7 +206,7 @@ public class Simulator implements ActionListener
      * @param numSteps The number of steps to run for.
      * @throws RunException 
      */
-    public static void simulate(int numSteps) throws RunException
+    public static void simulate(int numSteps)
     {
         for(int step1 = 1; step1 <= numSteps && Simulator.anview.isViable(Simulator.field); step1++)
         simulateOneStep();
@@ -218,7 +218,7 @@ public class Simulator implements ActionListener
      * fox and rabbit.
 	 * @throws RunException 
      */
-    public static void simulateOneStep() throws RunException
+    public static void simulateOneStep()
     {
         Simulator.step++;
 
@@ -257,7 +257,7 @@ public class Simulator implements ActionListener
      * Reset the simulation to a starting position.
      * @throws RunException 
      */
-    public static void reset() throws RunException
+    public static void reset()
     {
     	if (run==false){
     		Simulator.step = 0;
@@ -323,13 +323,7 @@ public class Simulator implements ActionListener
 			public void run(){
     			setRun(true);
     			while (getRun()==true){
-    				try {
-						simulate(1);
-					} catch (RunException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				//simulateOneStep();
+    				simulate(1);
     				pause(50);
     			}
     		}
