@@ -1,10 +1,11 @@
 package VK.controller;
-import javax.swing.*;
 
-import VK.model.Model;
-import VK.simulator.Simulator;
 import java.awt.GridLayout;
 import java.awt.event.*;
+import javax.swing.*;
+
+import VK.model.AbstractModel;
+import VK.model.Model;
 
 /**
  * 
@@ -15,18 +16,16 @@ import java.awt.event.*;
 @SuppressWarnings("serial")
 public class Controller extends AbstractController implements ActionListener {
 	
-	private JButton btnStart1;
-	private JButton btnStart100;
+	private JButton btnStart1, btnStart100, btnSimuleer, btnStart, btnStop, btnReset;
 	private JTextField aantalStappen;
-	private JButton btnSimuleer;
-	private JButton start;
-	private JButton stop;
-	private JButton btnReset;
+	protected Model model;
 
-	public Controller(Model newModel) {
+	public Controller(AbstractModel newModel) {
 		super(newModel);
-		
+
+		this.add(makeMenuBar());
 		this.add(makeWestBorder());
+		this.add(makeEastBorder());
 	}
 	
 	/**
@@ -35,76 +34,31 @@ public class Controller extends AbstractController implements ActionListener {
 	 * 
 	 * @return JPanel
 	 */
-	private static JPanel makeWestBorder() {
+	@Override
+	public JPanel makeWestBorder() {
 		JPanel panel2 = new JPanel();
 		JPanel westborder = new JPanel();
 		
 		//Make buttons
-		JButton btnStart1 = new JButton("Step 1");
-		btnStart1.addActionListener(
-				new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (Simulator.getRun()) Simulator.stop();
-						Simulator.simulateOneStep();
-					}	
-				});
-		JButton btnStart100 = new JButton("Step 100");
-		btnStart100.addActionListener(
-				new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (Simulator.getRun()) Simulator.stop();
-						Simulator.simulate(100);
-					}	
-				});
-		final JTextField aantalStappen = new JTextField();
-		JButton btnSimuleer = new JButton("Simuleer");
-		btnSimuleer.addActionListener(
-				new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						try{
-							String aantalstappen = aantalStappen.getText();
-							int aantal = Integer.parseInt(aantalstappen);
-							
-							if (aantal<=0)
-								System.out.println("Aantal dagen mag geen 0 zijn!");
-							else{
-								if (Simulator.getRun()) Simulator.stop();
-								Simulator.simulate(aantal);
-							}
-						}
-						catch (Exception exc){
-							System.out.println("Voer een positief getal in!");
-						}
-					}
-				});
-		final JButton btnStart = new JButton("Start");
-		btnStart.addActionListener(
-				new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e){
-						if (!Simulator.getRun()) Simulator.start();
-					}
-				});
-		final JButton btnStop = new JButton("Stop");
-		btnStop.addActionListener(
-				new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e){
-						if (Simulator.getRun()) Simulator.stop();
-					}
-				});
-		final JButton btnReset = new JButton("Reset");
-		btnReset.addActionListener(
-				new ActionListener(){
-					@Override
-					public void actionPerformed(ActionEvent e){
-						if (Simulator.getRun()) Simulator.stop();
-						Simulator.reset();
-					}
-				});
+		this.btnStart1 = new JButton("Step 1");
+		this.btnStart1.addActionListener(this);
+		
+		this.btnStart100 = new JButton("Step 100");
+		this.btnStart100.addActionListener(this);
+		
+		this.aantalStappen = new JTextField();
+		
+		this.btnSimuleer = new JButton("Simuleer");
+		this.btnSimuleer.addActionListener(this);
+		
+		this.btnStart = new JButton("Start");
+		this.btnStart.addActionListener(this);
+		
+		this.btnStop = new JButton("Stop");
+		this.btnStop.addActionListener(this);
+		
+		this.btnReset = new JButton("Reset");
+		this.btnReset.addActionListener(this);
 		
 		//An empty label, to create an empty line in the buttonmenu
 		JLabel emptyLabel1 = new JLabel();
@@ -112,42 +66,86 @@ public class Controller extends AbstractController implements ActionListener {
 		JLabel emptyLabel3 = new JLabel();
 		
 		//Make frames
-		panel2.add(btnStart1);
-		panel2.add(btnStart100);
+		panel2.add(this.btnStart1);
+		panel2.add(this.btnStart100);
 		
 		panel2.add(emptyLabel1);
-		panel2.add(aantalStappen);
-		panel2.add(btnSimuleer);
+		panel2.add(this.aantalStappen);
+		panel2.add(this.btnSimuleer);
 		
 		panel2.add(emptyLabel2);
-		panel2.add(btnStart);
-		panel2.add(btnStop);
+		panel2.add(this.btnStart);
+		panel2.add(this.btnStop);
 		
 		panel2.add(emptyLabel3);
-		panel2.add(btnReset);
+		panel2.add(this.btnReset);
 		
 		panel2.setLayout(new GridLayout(0,1));
-		
 		
 		westborder.add(panel2);
 		westborder.setVisible(true);
 		
 		return westborder;
 	}
+    
+	/**
+	* Makes the menubar
+	*
+	* @return JMenuBar
+	*/
+	@Override
+	public JMenuBar makeMenuBar(){
+		JMenuBar menuBar = new JMenuBar();
+		
+		JMenu menuMenu1 = new JMenu("Bestand");
+		final JMenuItem quitItem = new JMenuItem("Afsluiten");
+		quitItem.addActionListener(this);
+		menuMenu1.add(quitItem);
+		menuBar.add(menuMenu1);
+	
+		JMenu menuHelp = new JMenu("Help");
+		final JMenuItem legendaItem = new JMenuItem("Legenda");
+		menuHelp.add(legendaItem);
+		legendaItem.addActionListener(this);
+		menuBar.add(menuHelp);
+	
+		return menuBar;
+	}
+    
+    /**
+    * Creates a JPanel with a BoxLayout to facilitate the Graphics
+    * @return
+    */
+
+    @Override
+	public JPanel makeEastBorder(){
+	    JPanel panel = new JPanel();
+	    JPanel eastborder = new JPanel();
+	
+	    final JButton btnTest = new JButton("Test");
+	    btnTest.addActionListener(this);
+	
+	    panel.add(btnTest);
+	    panel.setLayout(new GridLayout(0,3));
+	
+	    eastborder.add(panel);
+	    eastborder.setVisible(true);
+	
+	    return eastborder;
+    }
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource()==this.btnStart1) {
-			model.simulateOneStep();
+	public void actionPerformed(ActionEvent ae) {
+		Object e = ae.getSource();
+		if (e==this.btnStart1) {
+			this.model.simulateOneStep();
 		}
 		
-		if (e.getSource()==this.btnStart100) {
-			model.simulate(100);
+		if (e==this.btnStart100) {
+			this.model.simulate(100);
 		}
 		
-		if (e.getSource()==this.btnSimuleer) {
-			this.model.setSteps(this.model.getSteps()+1);
-			
+		if (e==this.btnSimuleer) {
 			try{
 				String aantalstappen = this.aantalStappen.getText();
 				int aantal = Integer.parseInt(aantalstappen);
@@ -155,8 +153,8 @@ public class Controller extends AbstractController implements ActionListener {
 				if (aantal<=0)
 					System.out.println("Aantal dagen mag geen 0 zijn!");
 				else{
-					if (this.model.getRun()) this.model.stop();
-					model.simulate(aantal);
+					if (this.model.run) this.model.stop();
+					this.model.simulate(aantal);
 				}
 			}
 			catch (Exception exc){
@@ -164,16 +162,16 @@ public class Controller extends AbstractController implements ActionListener {
 			}
 		}
 		
-		if (e.getSource()==this.start) {
+		if (e==this.btnStart) {
 			this.model.start();
 		}
 		
-		if (e.getSource()==this.stop) {
+		if (e==this.btnStop) {
 			this.model.stop();
 		}
 		
-		if (e.getSource()==this.btnReset) {
-			model.reset();
+		if (e==this.btnReset) {
+			this.model.reset();
 		}
 	}
 }

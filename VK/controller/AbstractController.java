@@ -1,16 +1,25 @@
 package VK.controller;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import VK.model.Model;
+import VK.model.AbstractModel;
 
+@SuppressWarnings("serial")
 public abstract class AbstractController extends JPanel {
-
-	private static final long serialVersionUID = 1L;
 	
-	protected Model model;
+	protected AbstractModel abstractModel;
 	
-	public AbstractController(Model newModel) {
-		this.model=newModel;
+	public AbstractController(AbstractModel newAbstractModel) {
+		this.abstractModel=newAbstractModel;
 	}
+	
+	public abstract void actionPerformed(ActionEvent ae);
+
+	public abstract JMenuBar makeMenuBar();
+
+	public abstract Component makeEastBorder();
+
+	public abstract Component makeWestBorder();
 }

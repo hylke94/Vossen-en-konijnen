@@ -1,10 +1,9 @@
-package VK.animals;
-import java.util.List;
-import java.util.Random;
+package VK.actors;
 
-import VK.simulator.Field;
-import VK.simulator.Location;
-import VK.simulator.Randomizer;
+import java.util.List;
+
+import VK.view.Field;
+import VK.view.Location;
 
 /**
  * A simple model of a rabbit.
@@ -15,22 +14,16 @@ import VK.simulator.Randomizer;
  */
 public class Rabbit extends Animal
 {
-    // Characteristics shared by all rabbits (static fields).
+	// Characteristics shared by all rabbits (static fields).
 
     // The age at which a rabbit can start to breed.
     private static final int BREEDING_AGE = 5;
     // The age to which a rabbit can live.
-    private static final int MAX_AGE = 10;
+    private static final int MAX_AGE = 40;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.10;
+    private static final double BREEDING_PROBABILITY = 0.15;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
-    
-    // Individual characteristics (instance fields).
-    // The rabbit's food level, which is increased by eating grass.
-    private int foodLevel;
 
     /**
      * Create a new rabbit. A rabbit may be created with age
@@ -55,9 +48,10 @@ public class Rabbit extends Animal
      * @param newRabbits A list to add newly born rabbits to.
      */
     @Override
-	public void act(List<Animal> newRabbits)
+    public void act(List<Actor> newRabbits)
     {
-        incrementAge();
+        super.incrementAge();
+        incrementHunger();
         if(isAlive()) {
             giveBirth(newRabbits);            
             // Try to move into a free location.
@@ -71,30 +65,17 @@ public class Rabbit extends Animal
             }
         }
     }
-    
-    /**
-     * Check whether or not this rabbit is to give birth at this step.
-     * New births will be made into free adjacent locations.
-     * @param newRabbits A list to add newly born rabbits to.
-     */
-    private void giveBirth(List<Animal> newRabbits)
-    {
-        // New rabbits are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Rabbit young = new Rabbit(false, field, loc);
-            newRabbits.add(young);
-        }
-    }
+
+	private void incrementHunger() {
+		setFoodLevel(getFoodLevel()-1);
+		if (getFoodLevel() <= 0) setDead();
+	}
     
     @Override
 	protected double getBreedingProbability(){
     	return BREEDING_PROBABILITY;
     }
+    
     @Override
 	protected int getMaxLitterSize(){
     	return MAX_LITTER_SIZE;
@@ -109,10 +90,4 @@ public class Rabbit extends Animal
 	protected int getMaxAge(){
     	return MAX_AGE;
     }
-
-	@Override
-	protected int getFoodlevel() {
-		return this.foodLevel;
-	}
 }
-

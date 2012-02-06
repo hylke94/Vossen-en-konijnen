@@ -1,4 +1,4 @@
-package VK.simulator;
+package VK.view;
 /**
  * Represent a location in a rectangular grid.
  * 

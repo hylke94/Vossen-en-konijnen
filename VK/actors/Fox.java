@@ -1,11 +1,10 @@
-package VK.animals;
+package VK.actors;
+
 import java.util.List;
 import java.util.Iterator;
-import java.util.Random;
 
-import VK.simulator.Field;
-import VK.simulator.Location;
-import VK.simulator.Randomizer;
+import VK.view.Field;
+import VK.view.Location;
 
 /**
  * A simple model of a fox.
@@ -16,25 +15,19 @@ import VK.simulator.Randomizer;
  */
 public class Fox extends Animal
 {
-    // Characteristics shared by all foxes (static fields).
+// Characteristics shared by all foxes (static fields).
     
     // The age at which a fox can start to breed.
     private static final int BREEDING_AGE = 10;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 20;
+    private static final int MAX_AGE = 100;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.08;
+    private static final double BREEDING_PROBABILITY = 0.40;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 3;
+    private static final int MAX_LITTER_SIZE = 5;
     // The food value of a single rabbit. In effect, this is the
     // number of steps a fox can go before it has to eat again.
-    private static final int RABBIT_FOOD_VALUE = 5;
-    // A shared random number generator to control breeding.
-    private static final Random rand = Randomizer.getRandom();
-    
-    // Individual characteristics (instance fields).
-    // The fox's food level, which is increased by eating rabbits.
-    private int foodLevel;
+    private static final int RABBIT_FOOD_VALUE = 7;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -49,11 +42,11 @@ public class Fox extends Animal
         super(field, location);
         if(randomAge) {
             this.age = rand.nextInt(MAX_AGE);
-            this.foodLevel = rand.nextInt(RABBIT_FOOD_VALUE);
+            setFoodLevel(rand.nextInt(RABBIT_FOOD_VALUE));
         }
         else {
             this.age = 0;
-            this.foodLevel = RABBIT_FOOD_VALUE;
+            setFoodLevel(RABBIT_FOOD_VALUE);
         }
     }
     
@@ -65,9 +58,9 @@ public class Fox extends Animal
      * @param newFoxes A list to add newly born foxes to.
      */
     @Override
-	public void act(List<Animal> newFoxes)
+    public void act(List<Actor> newFoxes)
     {
-        incrementAge();
+        super.incrementAge();
         incrementHunger();
         if(isAlive()) {
             giveBirth(newFoxes);            
@@ -88,15 +81,19 @@ public class Fox extends Animal
             }
         }
     }
-    
-    /**
+
+	private void incrementHunger() {
+		setFoodLevel(getFoodLevel()-1);
+		if (getFoodLevel() <= 0) setDead();
+	}
+
+	/**
      * Tell the fox to look for rabbits adjacent to its current location.
      * Only the first live rabbit is eaten.
      * @param location Where in the field it is located.
      * @return Where food was found, or null if it wasn't.
      */
-    @SuppressWarnings("unused")
-	private Location findFood(Location location)
+	private Location findFood(@SuppressWarnings("unused") Location location)
     {
         Field field = getField();
         List<Location> adjacent = field.adjacentLocations(getLocation());
@@ -108,7 +105,7 @@ public class Fox extends Animal
                 Rabbit rabbit = (Rabbit) animal;
                 if(rabbit.isAlive()) { 
                     rabbit.setDead();
-                    this.foodLevel = RABBIT_FOOD_VALUE;
+                    setFoodLevel(RABBIT_FOOD_VALUE);
                     // Remove the dead rabbit from the field.
                     return where;
                 }
@@ -116,35 +113,17 @@ public class Fox extends Animal
         }
         return null;
     }
-    
-    /**
-     * Check whether or not this fox is to give birth at this step.
-     * New births will be made into free adjacent locations.
-     * @param newFoxes A list to add newly born foxes to.
-     */
-    private void giveBirth(List<Animal> newFoxes)
-    {
-        // New foxes are born into adjacent locations.
-        // Get a list of adjacent free locations.
-        Field field = getField();
-        List<Location> free = field.getFreeAdjacentLocations(getLocation());
-        int births = breed();
-        for(int b = 0; b < births && free.size() > 0; b++) {
-            Location loc = free.remove(0);
-            Fox young = new Fox(false, field, loc);
-            newFoxes.add(young);
-        }
-    }
-    
-    @Override
+	
+	@Override
 	protected double getBreedingProbability(){
     	return BREEDING_PROBABILITY;
-    }
+    }    
+    
     @Override
 	protected int getMaxLitterSize(){
     	return MAX_LITTER_SIZE;
     }
-
+    
 	@Override
 	protected int getBreedingAge() {
 		return BREEDING_AGE;
@@ -154,10 +133,4 @@ public class Fox extends Animal
 	protected int getMaxAge(){
     	return MAX_AGE;
     }
-
-	@Override
-	protected int getFoodlevel() {
-		return this.foodLevel;
-	}
 }
-

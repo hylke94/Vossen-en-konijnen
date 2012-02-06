@@ -1,8 +1,10 @@
-package VK.simulator;
+package VK.view;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import VK.actors.Randomizer;
 
 
 /**
@@ -31,7 +33,7 @@ public class Field
     {
         this.depth = newDepth;
         this.width = newWidth;
-        this.field = new Object[newDepth][newWidth];
+        this.field = new Object[this.depth][this.width];
     }
     
     /**
@@ -56,34 +58,34 @@ public class Field
     }
     
     /**
-     * Place an animal at the given location.
-     * If there is already an animal at the location it will
+     * Place an actor at the given location.
+     * If there is already an actor at the location it will
      * be lost.
-     * @param animal The animal to be placed.
+     * @param actor The actor to be placed.
      * @param row Row coordinate of the location.
      * @param col Column coordinate of the location.
      */
-    public void place(Object animal, int row, int col)
+    public void place(Object actor, int row, int col)
     {
-        place(animal, new Location(row, col));
+        place(actor, new Location(row, col));
     }
     
     /**
-     * Place an animal at the given location.
-     * If there is already an animal at the location it will
+     * Place an actor at the given location.
+     * If there is already an actor at the location it will
      * be lost.
-     * @param animal The animal to be placed.
+     * @param actor The actor to be placed.
      * @param location Where to place the animal.
      */
-    public void place(Object animal, Location location)
+    public void place(Object actor, Location location)
     {
-        this.field[location.getRow()][location.getCol()] = animal;
+        this.field[location.getRow()][location.getCol()] = actor;
     }
     
     /**
-     * Return the animal at the given location, if any.
+     * Return the actor at the given location, if any.
      * @param location Where in the field.
-     * @return The animal at the given location, or null if there is none.
+     * @return The actor at the given location, or null if there is none.
      */
     public Object getObjectAt(Location location)
     {
@@ -91,10 +93,10 @@ public class Field
     }
     
     /**
-     * Return the animal at the given location, if any.
+     * Return the actor at the given location, if any.
      * @param row The desired row.
      * @param col The desired column.
-     * @return The animal at the given location, or null if there is none.
+     * @return The actor at the given location, or null if there is none.
      */
     public Object getObjectAt(int row, int col)
     {

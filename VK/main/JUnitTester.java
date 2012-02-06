@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import VK.Starter;
-import VK.simulator.Simulator;
 
 @SuppressWarnings("unused")
 public class JUnitTester {

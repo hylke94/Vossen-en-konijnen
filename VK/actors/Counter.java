@@ -1,4 +1,4 @@
-package VK.simulator;
+package VK.actors;
 /**
  * Provide a counter for a participant in the simulation.
  * This includes an identifying string and a count of how

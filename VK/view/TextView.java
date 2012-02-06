@@ -3,14 +3,13 @@ package VK.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import VK.simulator.Field;
+import VK.model.Model;
 
-public class TextView extends JPanel implements SimulatorView{
+public class TextView extends AbstractView implements SimulatorView{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -20,8 +19,10 @@ public class TextView extends JPanel implements SimulatorView{
     /**
      * Create a view of the given width and height.
      */
-    public TextView() {
-        this.output = new JTextArea("", 40, 40);
+    public TextView(Model newModel) {
+    	super(newModel);
+    	
+        this.output = new JTextArea("", 10, 40);
         this.output.setEditable(false);
         this.output.setLineWrap(true);
         JScrollPane scrollBar = new JScrollPane(this.output);
@@ -54,7 +55,7 @@ public class TextView extends JPanel implements SimulatorView{
 
 	@Override
 	public void showStatus(int step, Field field) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Poplation:");
+		System.out.println("Bear: "+", Fox: "+", Rabbit: "+", Hunter: ");
 	}
 }

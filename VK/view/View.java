@@ -1,12 +1,15 @@
 package VK.view;
 
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import VK.main.RunException;
+import java.util.ArrayList;
+import javax.swing.JPanel;
+
 import VK.model.Model;
 
 /**
- * 
  * @author Hylke de Vries
  * @version 0.0
  */
@@ -14,13 +17,23 @@ import VK.model.Model;
 @SuppressWarnings("serial")
 public class View extends AbstractView implements ActionListener {
 	
-	AbstractView animatedView;
+	public AbstractView animatedView;
+	private JPanel rightPanel = new JPanel();
+	public AbstractView textView;
+	public ArrayList<AbstractView> views;
 	
     public View(Model newModel) {
 		super(newModel);
+		
+		this.textView = new TextView(this.model);
 		this.animatedView = new AnimatedView(this.model);
 		
+		this.rightPanel.setLayout(new GridLayout(0,1));
+		this.rightPanel.add(this.textView);
+		
+		this.setLayout(new FlowLayout());
 		this.add(this.animatedView);
+		this.add(this.rightPanel);
 		this.setVisible(true);
     }
 	
@@ -36,12 +49,14 @@ public class View extends AbstractView implements ActionListener {
 		}
 	}
 	
-	public void setModel(Model newModel) {
-		this.model=newModel;
+	@SuppressWarnings("unused")
+	public void showStatus(int step, Field field){
+		
 	}
 	
-	@Override
-	public void updateView() {
-		repaint();
+	@SuppressWarnings("unused")
+	public static boolean isViable(Field field){
+		
+		return false;
 	}
 }

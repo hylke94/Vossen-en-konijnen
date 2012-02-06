@@ -1,15 +1,13 @@
 package VK.view;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import VK.main.RunException;
+import VK.main.Simulator;
 import VK.model.Model;
-import VK.simulator.Field;
-import VK.simulator.FieldStats;
-import VK.simulator.Simulator;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -28,7 +26,6 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
 {
 	private static final long serialVersionUID = 1L;
 	
-
 	// Colors used for empty locations.
     private static final Color EMPTY_COLOR = Color.white;
 
@@ -39,30 +36,33 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
     private final String POPULATION_PREFIX = "Population: ";
     private JLabel stepLabel, population;
     private FieldView fieldView;
+    private int[] animatedViewSizes = new int[2];
     
     // A map for storing colors for participants in the simulation
 	@SuppressWarnings("rawtypes")
-	private Map<Class, Color> colors;
+	public static Map<Class, Color> colors;
     // A statistics object computing and storing simulation information
     private FieldStats stats;
-    
+	
     @SuppressWarnings("rawtypes")
 	public AnimatedView(Model newModel){
     	super(newModel);
 		
-        this.stats = new FieldStats();
-        this.colors = new LinkedHashMap<Class, Color>();
-        
         this.stepLabel = new JLabel(this.STEP_PREFIX, SwingConstants.CENTER);
         this.population = new JLabel(this.POPULATION_PREFIX, SwingConstants.CENTER);
-        
-        this.fieldView = new FieldView(Simulator.heigth, Simulator.width);
-        
+
+        this.stats = new FieldStats();
+        this.fieldView = new FieldView(this.animatedViewSizes[1], this.animatedViewSizes[0]);
+
+        AnimatedView.colors = new LinkedHashMap<Class, Color>();
+		
         setLayout(new BorderLayout());
         add(this.stepLabel, BorderLayout.NORTH);
         add(this.fieldView, BorderLayout.CENTER);
         add(this.population, BorderLayout.SOUTH);
         setVisible(true);
+        
+        System.out.println("AnimatiedView(): \n	" + this.animatedViewSizes.toString() +"\n	Width: " + this.animatedViewSizes[0] + ", Height: " + this.animatedViewSizes[1]);
     }
     
     /**
@@ -74,16 +74,16 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
 	@SuppressWarnings("rawtypes")
 	public void setColor(Class animalClass, Color color)
     {
-        this.colors.put(animalClass, color);
+        AnimatedView.colors.put(animalClass, color);
     }
 
     /**
      * @return The color to be used for a given class of animal.
      */
     @SuppressWarnings("rawtypes")
-	private Color getColor(Class animalClass)
+	private static Color getColor(Class animalClass)
     {
-        Color col = this.colors.get(animalClass);
+        Color col = AnimatedView.colors.get(animalClass);
         if(col == null) {
             // no color defined for this class
             return UNKNOWN_COLOR;
@@ -94,15 +94,13 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
     /**
      * Show the current status of the field.
      * @param step Which iteration step it is.
-     * @param field The field whose status is to be displayed.
-     * @throws RunException 
+     * @param field1 The field whose status is to be displayed.
      */
     @Override
-	public void showStatus(int step, Field field)
+	public void showStatus(int step, Field field1)
     {
         if(!isVisible()) {
             setVisible(true);
-            System.out.println("isVisible==false");
         }
             
         this.stepLabel.setText(this.STEP_PREFIX + step);
@@ -110,9 +108,9 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
         
         this.fieldView.preparePaint();
 
-        for(int row = 0; row < field.getDepth(); row++) {
-            for(int col = 0; col < field.getWidth(); col++) {
-                Object animal = field.getObjectAt(row, col);
+        for(int row = 0; row < Simulator.field.getHeigth(); row++) {
+            for(int col = 0; col < Simulator.field.getWidth(); col++) {
+                Object animal = Simulator.field.getObjectAt(row, col);
                 if(animal != null) {
                 	this.stats.incrementCount(animal.getClass());
                     this.fieldView.drawMark(col, row, getColor(animal.getClass()));
@@ -124,7 +122,7 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
         }
         this.stats.countFinished();
 
-        this.population.setText(this.POPULATION_PREFIX + this.stats.getPopulationDetails(field));
+        this.population.setText(this.POPULATION_PREFIX + this.stats.getPopulationDetails(field1));
         this.fieldView.repaint();
     }
 
@@ -133,9 +131,9 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
      * @return true If there is more than one species alive.
      */
     @Override
-	public boolean isViable(Field field)
+	public boolean isViable(Field field1)
     {
-        return this.stats.isViable(field);
+        return this.stats.isViable(field1);
     }
 
 	@Override
@@ -166,18 +164,20 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
 
         private int gridWidth, gridHeight;
         private int xScale, yScale;
-        Dimension size;
+        Dimension fieldViewSize;
         private Graphics g;
         private Image fieldImage;
 
         /**
          * Create a new FieldView component.
+         * @param height
+         * @param width
          */
 		public FieldView(int newHeight, int newWidth)
         {
             this.gridHeight = newHeight;
             this.gridWidth = newWidth;
-            this.size = new Dimension(0, 0);
+            this.fieldViewSize = new Dimension(0,0);
         }
 
         /**
@@ -197,16 +197,18 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
         @SuppressWarnings("synthetic-access")
 		public void preparePaint()
         {
-            if(! this.size.equals(getSize())) {  // if the size has changed...
-                this.size = getSize();
-                this.fieldImage = AnimatedView.this.fieldView.createImage(this.size.width, this.size.height);
+            if(! this.fieldViewSize.equals(getSize())) {  // if the size has changed...
+                this.fieldViewSize = getSize();
+                
+            System.out.println("AnimatedView.prepairPaint(): \n	" + this.fieldViewSize.toString() +"\n	Width: " + this.fieldViewSize.width + ", Height: " + this.fieldViewSize.height);
+                this.fieldImage = AnimatedView.this.fieldView.createImage(this.fieldViewSize.width, this.fieldViewSize.height);
                 this.g = this.fieldImage.getGraphics();
 
-                this.xScale = this.size.width / this.gridWidth;
+                this.xScale = this.fieldViewSize.width / this.gridWidth;
                 if(this.xScale < 1) {
                     this.xScale = this.GRID_VIEW_SCALING_FACTOR;
                 }
-                this.yScale = this.size.height / this.gridHeight;
+                this.yScale = this.fieldViewSize.height / this.gridHeight;
                 if(this.yScale < 1) {
                     this.yScale = this.GRID_VIEW_SCALING_FACTOR;
                 }
@@ -219,7 +221,6 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
         public void drawMark(int x, int y, Color color)
         {
         	this.g.setColor(color);
-        	System.out.println(this.g.getColor());
             this.g.fillRect(x * this.xScale, y * this.yScale, this.xScale-1, this.yScale-1);
         }
 
@@ -232,7 +233,7 @@ public class AnimatedView extends AbstractView implements ActionListener, Simula
         {
             if(this.fieldImage != null) {
                 Dimension currentSize = getSize();
-                if(this.size.equals(currentSize)) {
+                if(this.fieldViewSize.equals(currentSize)) {
                     g1.drawImage(this.fieldImage, 0, 0, null);
                 }
                 else {

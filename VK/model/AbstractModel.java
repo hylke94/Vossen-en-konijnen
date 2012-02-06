@@ -1,13 +1,11 @@
 package VK.model;
 
 import java.util.*;
-
-import VK.main.RunException;
 import VK.view.AbstractView;
 
 public abstract class AbstractModel {
 	
-	private List<AbstractView> views;
+	protected ArrayList<AbstractView> views;
 	
 	public AbstractModel() {
 		this.views=new ArrayList<AbstractView>();
@@ -20,4 +18,6 @@ public abstract class AbstractModel {
 	protected void notifyViews() {
 		for(AbstractView v: this.views) v.updateView();
 	}
+
+	public abstract void reset();
 }

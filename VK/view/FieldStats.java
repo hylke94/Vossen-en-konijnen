@@ -1,5 +1,8 @@
-package VK.simulator;
+package VK.view;
 import java.util.HashMap;
+
+import VK.actors.Counter;
+
 
 /**
  * This class collects and provides some statistical data on the state 
@@ -72,7 +75,7 @@ public class FieldStats
         if(count == null) {
             // We do not have a counter for this species yet.
             // Create one.
-            count = new Counter(animalClass.getName());
+            count = new Counter(animalClass.getSimpleName());
             this.counters.put(animalClass, count);
         }
         count.increment();
