@@ -25,8 +25,8 @@ public class View extends AbstractView implements ActionListener {
     public View(Model newModel) {
 		super(newModel);
 		
-		this.textView = new TextView(this.model);
-		this.animatedView = new AnimatedView(this.model);
+		this.textView = new TextView(newModel);
+		this.animatedView = new AnimatedView(newModel);
 		
 		this.rightPanel.setLayout(new GridLayout(0,1));
 		this.rightPanel.add(this.textView);
@@ -48,15 +48,10 @@ public class View extends AbstractView implements ActionListener {
 			System.out.println("Geen actie voor command bekend!\n	Command = \""+command+"\";\n	"+e+"\n");
 		}
 	}
-	
-	@SuppressWarnings("unused")
-	public void showStatus(int step, Field field){
+
+	@Override
+	public void preparePaint() {
+		// TODO Auto-generated method stub
 		
-	}
-	
-	@SuppressWarnings("unused")
-	public static boolean isViable(Field field){
-		
-		return false;
 	}
 }

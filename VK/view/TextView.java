@@ -58,4 +58,10 @@ public class TextView extends AbstractView implements SimulatorView{
 		System.out.println("Poplation:");
 		System.out.println("Bear: "+", Fox: "+", Rabbit: "+", Hunter: ");
 	}
+
+	@Override
+	public void preparePaint() {
+		// TODO Auto-generated method stub
+		
+	}
 }

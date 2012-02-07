@@ -16,7 +16,6 @@ public class FieldView extends AbstractView
      setSize(200,200);
      setVisible(true);
     }
-
    
     /**
     * The field view component needs to be redisplayed. Copy the
@@ -40,7 +39,8 @@ public class FieldView extends AbstractView
      * Prepare for a new round of painting. Since the component
 	* may be resized, compute the scaling factor again.
 	*/
-    public void preparePaint() {
+    @Override
+	public void preparePaint() {
         if(!this.size.equals(getSize())) { // if the size has changed...
             this.size = getSize();
             this.fieldImage = this.createImage(this.size.width, this.size.height);

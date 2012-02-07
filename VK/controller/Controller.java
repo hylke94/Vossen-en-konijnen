@@ -4,8 +4,8 @@ import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
 
-import VK.model.AbstractModel;
 import VK.model.Model;
+import VK.view.Legenda;
 
 /**
  * 
@@ -18,9 +18,11 @@ public class Controller extends AbstractController implements ActionListener {
 	
 	private JButton btnStart1, btnStart100, btnSimuleer, btnStart, btnStop, btnReset;
 	private JTextField aantalStappen;
-	protected Model model;
+	
+	private String steps;
+	public static int toRun = 0;
 
-	public Controller(AbstractModel newModel) {
+	public Controller(Model newModel) {
 		super(newModel);
 
 		this.add(makeMenuBar());
@@ -34,7 +36,6 @@ public class Controller extends AbstractController implements ActionListener {
 	 * 
 	 * @return JPanel
 	 */
-	@Override
 	public JPanel makeWestBorder() {
 		JPanel panel2 = new JPanel();
 		JPanel westborder = new JPanel();
@@ -93,7 +94,6 @@ public class Controller extends AbstractController implements ActionListener {
 	*
 	* @return JMenuBar
 	*/
-	@Override
 	public JMenuBar makeMenuBar(){
 		JMenuBar menuBar = new JMenuBar();
 		
@@ -117,8 +117,7 @@ public class Controller extends AbstractController implements ActionListener {
     * @return
     */
 
-    @Override
-	public JPanel makeEastBorder(){
+    public JPanel makeEastBorder(){
 	    JPanel panel = new JPanel();
 	    JPanel eastborder = new JPanel();
 	
@@ -134,44 +133,64 @@ public class Controller extends AbstractController implements ActionListener {
 	    return eastborder;
     }
 
-	@Override
-	public void actionPerformed(ActionEvent ae) {
-		Object e = ae.getSource();
-		if (e==this.btnStart1) {
-			this.model.simulateOneStep();
-		}
-		
-		if (e==this.btnStart100) {
-			this.model.simulate(100);
-		}
-		
-		if (e==this.btnSimuleer) {
-			try{
-				String aantalstappen = this.aantalStappen.getText();
-				int aantal = Integer.parseInt(aantalstappen);
-				
-				if (aantal<=0)
-					System.out.println("Aantal dagen mag geen 0 zijn!");
-				else{
-					if (this.model.run) this.model.stop();
-					this.model.simulate(aantal);
-				}
-			}
-			catch (Exception exc){
-				System.out.println("Voer een positief getal in!");
-			}
-		}
-		
-		if (e==this.btnStart) {
-			this.model.start();
-		}
-		
-		if (e==this.btnStop) {
-			this.model.stop();
-		}
-		
-		if (e==this.btnReset) {
-			this.model.reset();
-		}
-	}
+    /**
+    * Handles the events for every action performed
+    */
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+	    //--------- Knoppen
+	
+	    if(e.getActionCommand() == "Step 1"){
+	    	this.model.simulateOneStep();
+	    }
+	    if(e.getActionCommand() == "Step 100"){
+	    	this.model.simulate(100);
+	    }
+	    if(e.getActionCommand() == "Simuleer"){
+	    	try{
+	    		this.steps = this.aantalStappen.getText();
+	    		System.out.println(this.steps);
+	    		int aantal = Integer.parseInt(this.steps);
+	
+	    		toRun = aantal;
+	
+	    		if (aantal<=0)
+	    			System.out.println("Aantal dagen mag geen 0 zijn!");
+	    		else{
+	    			if (this.model.run == true) this.model.stop();
+	    			this.model.simulate(aantal);
+	    		}
+	    	}
+	    	catch (Exception exc){
+	    		exc.printStackTrace();
+	    		System.out.println("Voer een positief getal in!");
+	    	}
+	    	if (!this.model.run) this.model.runApplication();
+    	}
+    	if (e.getActionCommand() == "Start"){
+    		if (! this.model.run) this.model.runApplication();
+	    }
+	    if (e.getActionCommand() == "Stop"){
+	    	if (this.model.run) this.model.stop();
+	    }
+	    if (e.getActionCommand() == "Reset"){
+	    	if (this.model.run) this.model.stop();
+	    	this.model.reset();
+	    }
+	
+	    if (e.getActionCommand() == "Test"){
+	    	System.out.print("Test gelukt");
+	    }
+	
+	    //--- Menu items
+	
+	    if (e.getActionCommand() == "Legenda"){
+	    	@SuppressWarnings("unused")
+			Legenda lgd = new Legenda(new JFrame(), "Legenda");
+	    }
+	    if(e.getActionCommand() == "Afsluiten"){
+	    	System.exit(0);
+	    }
+    }
 }

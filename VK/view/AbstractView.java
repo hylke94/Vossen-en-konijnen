@@ -38,5 +38,5 @@ public abstract class AbstractView extends JPanel {
 	 * Prepare for a new round of painting. Since the component
 	 * mey be resized, compute the scaling factor again.
 	 */
-	public void preparePaint(){}
+	public abstract void preparePaint();
 }

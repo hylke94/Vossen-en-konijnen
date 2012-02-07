@@ -4,20 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import VK.controller.AbstractController;
 import VK.controller.Controller;
-import VK.model.AbstractModel;
 import VK.model.Model;
 import VK.view.FieldView;
 
@@ -29,14 +21,14 @@ import VK.view.FieldView;
  * @version 0.0
  */
 @SuppressWarnings("serial")
-public class Simulator extends JFrame implements ActionListener
+public class Simulator extends JFrame
 {
-    private FieldView fieldView;
-    private AbstractModel model;
-    private AbstractController controller;
+    public FieldView fieldView;
+    public Model model;
+    public Controller controller;
     
-    public static JLabel population, lblSteps;
-	public JLabel lblVersion;
+    public JLabel population, lblSteps, lblVersion;
+	
     public final String STEP_PREFIX = "Step: ";
     public final String POPULATION_PREFIX = "Population: ";
     public final String VERSION_PREFIX = "Version 0.0";
@@ -54,8 +46,8 @@ public class Simulator extends JFrame implements ActionListener
 
     	JPanel panel = new JPanel();
 
-    	population = new JLabel(this.POPULATION_PREFIX, SwingConstants.CENTER);
-    	lblSteps = new JLabel(this.STEP_PREFIX, SwingConstants.CENTER);
+    	this.population = new JLabel(this.POPULATION_PREFIX, SwingConstants.CENTER);
+    	this.lblSteps = new JLabel(this.STEP_PREFIX, SwingConstants.CENTER);
 
     	Container content = getContentPane();
 
@@ -67,11 +59,11 @@ public class Simulator extends JFrame implements ActionListener
     	panel.add(this.controller.makeEastBorder(), BorderLayout.EAST);
     	panel.add(this.controller.makeWestBorder(), BorderLayout.WEST);
     	
-    	panel.add(lblSteps, BorderLayout.NORTH);
+    	panel.add(this.lblSteps, BorderLayout.NORTH);
     	panel.add(this.fieldView, BorderLayout.CENTER);
-    	panel.add(population, BorderLayout.SOUTH);
-    	content.add(panel,BorderLayout.SOUTH);
-    	setResizable(true);
+    	panel.add(this.population, BorderLayout.SOUTH);
+    	content.add(panel, BorderLayout.SOUTH);
+    	setResizable(false);
     	pack();
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	setVisible(true);
@@ -79,35 +71,10 @@ public class Simulator extends JFrame implements ActionListener
         
         int[] location = centerFrame(this);
         this.setLocation(location[0], location[1]);
-        
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-    
-    public JMenuBar makeMenuBar(){
-    	JMenuBar menuBar = new JMenuBar();
-		
-		JMenu menuMenu1 = new JMenu("Menu1");
-			JMenuItem openItem = new JMenuItem("Openen");
-			openItem.addActionListener(this);
-			menuMenu1.add(openItem);
-			JMenuItem quitItem = new JMenuItem("Afsluiten");
-			quitItem.addActionListener(this);
-			menuMenu1.add(quitItem);
-				menuBar.add(menuMenu1);
-		JMenu menuMenu2 = new JMenu("Menu2");
-			JMenuItem menu2Item = new JMenuItem("Menu2Item");
-			menuMenu2.add(menu2Item);
-				menuBar.add(menuMenu2);
-		JMenu menuHelp = new JMenu("Help");
-			JMenuItem helpItem = new JMenuItem("Help");
-			menuHelp.add(helpItem);
-				menuBar.add(menuHelp);
-		
-		return menuBar;
     }
 	
 	public static int[] centerFrame(JFrame frame){
-		int[] place = new int[] {1,1};
+		int[] place = new int[2];
         int frameHeight = frame.getHeight();
         int frameWidth = frame.getWidth();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -119,16 +86,4 @@ public class Simulator extends JFrame implements ActionListener
         
         return place;
     }
-	
-	@Override
-	public void repaint() {
-		super.setTitle("");
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }
-

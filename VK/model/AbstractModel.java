@@ -5,7 +5,7 @@ import VK.view.AbstractView;
 
 public abstract class AbstractModel {
 	
-	protected ArrayList<AbstractView> views;
+	protected List<AbstractView> views;
 	
 	public AbstractModel() {
 		this.views=new ArrayList<AbstractView>();
@@ -18,6 +18,4 @@ public abstract class AbstractModel {
 	protected void notifyViews() {
 		for(AbstractView v: this.views) v.updateView();
 	}
-
-	public abstract void reset();
 }
