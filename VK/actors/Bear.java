@@ -18,9 +18,9 @@ public class Bear extends Animal
     // Characteristics shared by all foxes (static fields).
     
     // The age at which a bear can start to breed.
-	private static final int BREEDING_AGE = 20 ;
+	private static final int BREEDING_AGE = 20;
 	// The age to which a fox can live.
-	private static final int MAX_AGE = 100;
+	private static final int MAX_AGE = 80;
 	// The likelihood of a fox breeding.
 	private static final double BREEDING_PROBABILITY = 0.30;
 	// The maximum number of births.

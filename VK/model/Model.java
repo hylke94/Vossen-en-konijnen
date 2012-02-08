@@ -253,7 +253,7 @@ public class Model extends AbstractModel implements Runnable{
     /**
     * @return The color to be used for a given class of animal.
     */
-    private Color getColor(Class<?> animalClass)
+    public Color getColor(Class<?> animalClass)
 	{
     	Color col = this.colors.get(animalClass);
     	if(col == null) {
@@ -279,14 +279,14 @@ public class Model extends AbstractModel implements Runnable{
          			Model.this.run = true;
          			while(Model.this.run && Model.this.step < this.steps){
          				simulate(1);
-         				pause(50);
+         				pause(100);
          			}
          		}
          		else {
          			Model.this.run = true;
          			while(Model.this.run){
          				simulate(1);
-         				pause(50);
+         				pause(100);
          			}
          		}
          	}
@@ -319,6 +319,11 @@ public class Model extends AbstractModel implements Runnable{
     public void setColor(Class<?> animalClass, Color color)
     {
         this.colors.put(animalClass, color);
+    }
+    
+    public float getCount(Class<?> actor)
+    {
+    	return this.stats.getCount(actor);
     }
 
 	@Override

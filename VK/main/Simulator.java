@@ -7,11 +7,15 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
 import VK.controller.Controller;
 import VK.model.Model;
 import VK.view.FieldView;
+import VK.view.HistogramView;
+import VK.view.PieView;
+import VK.view.TextView;
 
 /**
  * A simple predator-prey simulator, based on a rectangular field
@@ -24,10 +28,15 @@ import VK.view.FieldView;
 public class Simulator extends JFrame
 {
     public FieldView fieldView;
+    public HistogramView hisview;
+    public PieView pieview;
+    public TextView txtview;
     public Model model;
     public Controller controller;
     
     public JLabel population, lblSteps, lblVersion;
+    
+    public JPanel eastborder;
 	
     public final String STEP_PREFIX = "Step: ";
     public final String POPULATION_PREFIX = "Population: ";
@@ -40,7 +49,18 @@ public class Simulator extends JFrame
     {
         this.model = new Model(this);
     	this.fieldView = new FieldView(this.model);
+        this.hisview = new HistogramView(this.model);
+        this.pieview = new PieView(this.model);
+        this.txtview = new TextView(this.model);
     	this.controller = new Controller(this.model);
+    	
+    	JTabbedPane jtp = new JTabbedPane();
+    	jtp.addTab("Histogram", this.hisview);
+    	jtp.addTab("Cirkeldiagram", this.pieview);
+    	jtp.addTab("Tekstview", this.txtview);
+    	
+    	this.eastborder = new JPanel();
+    	this.eastborder.add(jtp);
     	
     	setTitle("Vossen en Konijnen");
 
@@ -48,6 +68,7 @@ public class Simulator extends JFrame
 
     	this.population = new JLabel(this.POPULATION_PREFIX, SwingConstants.CENTER);
     	this.lblSteps = new JLabel(this.STEP_PREFIX, SwingConstants.CENTER);
+    	this.lblVersion = new JLabel(this.VERSION_PREFIX, SwingConstants.LEFT);
 
     	Container content = getContentPane();
 
@@ -55,14 +76,15 @@ public class Simulator extends JFrame
     	panel.setLayout(new BorderLayout());
 
     	setJMenuBar(this.controller.makeMenuBar());
-
-    	panel.add(this.controller.makeEastBorder(), BorderLayout.EAST);
-    	panel.add(this.controller.makeWestBorder(), BorderLayout.WEST);
     	
     	panel.add(this.lblSteps, BorderLayout.NORTH);
     	panel.add(this.fieldView, BorderLayout.CENTER);
     	panel.add(this.population, BorderLayout.SOUTH);
-    	content.add(panel, BorderLayout.SOUTH);
+    	
+    	content.add(this.eastborder, BorderLayout.EAST);
+    	content.add(this.controller.makeWestBorder(), BorderLayout.WEST);
+    	content.add(panel, BorderLayout.CENTER);
+    	content.add(this.lblVersion, BorderLayout.SOUTH);
     	setResizable(false);
     	pack();
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -2,7 +2,7 @@ package VK.view;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import VK.model.AbstractModel;
+import VK.model.Model;
 
 @SuppressWarnings("serial")
 public class FieldView extends AbstractView
@@ -11,10 +11,8 @@ public class FieldView extends AbstractView
 	/**
      * Create a new FieldView component.
      */
-    public FieldView(AbstractModel abstractModel) {
-     super(abstractModel);
-     setSize(200,200);
-     setVisible(true);
+    public FieldView(Model newModel) {
+    	super(newModel);
     }
    
     /**

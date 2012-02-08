@@ -150,7 +150,6 @@ public class Controller extends AbstractController implements ActionListener {
 	    if(e.getActionCommand() == "Simuleer"){
 	    	try{
 	    		this.steps = this.aantalStappen.getText();
-	    		System.out.println(this.steps);
 	    		int aantal = Integer.parseInt(this.steps);
 	
 	    		toRun = aantal;
@@ -159,14 +158,12 @@ public class Controller extends AbstractController implements ActionListener {
 	    			System.out.println("Aantal dagen mag geen 0 zijn!");
 	    		else{
 	    			if (this.model.run == true) this.model.stop();
-	    			this.model.simulate(aantal);
+	    			this.model.simulate(toRun);
 	    		}
 	    	}
 	    	catch (Exception exc){
-	    		exc.printStackTrace();
 	    		System.out.println("Voer een positief getal in!");
 	    	}
-	    	if (!this.model.run) this.model.runApplication();
     	}
     	if (e.getActionCommand() == "Start"){
     		if (! this.model.run) this.model.runApplication();
@@ -180,7 +177,7 @@ public class Controller extends AbstractController implements ActionListener {
 	    }
 	
 	    if (e.getActionCommand() == "Test"){
-	    	System.out.print("Test gelukt");
+	    	System.out.println("Test gelukt");
 	    }
 	
 	    //--- Menu items

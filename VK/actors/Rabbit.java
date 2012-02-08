@@ -21,9 +21,12 @@ public class Rabbit extends Animal
     // The age to which a rabbit can live.
     private static final int MAX_AGE = 40;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.15;
+    private static final double BREEDING_PROBABILITY = 0.50;
     // The maximum number of births.
     private static final int MAX_LITTER_SIZE = 4;
+	// The food value of a single grass. In effect, this is the
+	// number of steps a rabbit can go before it has to eat again.
+	private static final int GRASS_FOOD_VALUE = 5;
 
     /**
      * Create a new rabbit. A rabbit may be created with age
@@ -39,6 +42,11 @@ public class Rabbit extends Animal
         this.age = 0;
         if(randomAge) {
             this.age = rand.nextInt(MAX_AGE);
+            setFoodLevel(rand.nextInt(MAX_AGE));
+        }
+        else {
+        	this.age = MAX_AGE;
+        	setFoodLevel(GRASS_FOOD_VALUE);
         }
     }
     
@@ -63,6 +71,9 @@ public class Rabbit extends Animal
                 // Overcrowding.
                 setDead();
             }
+        }
+        else {
+        	setDead();
         }
     }
 

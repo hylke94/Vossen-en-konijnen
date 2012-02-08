@@ -5,11 +5,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.*;
 import VK.model.AbstractModel;
+import VK.model.Model;
 
 @SuppressWarnings("serial")
 public abstract class AbstractView extends JPanel {
 	
-	protected AbstractModel abstractmodel;
+	protected Model model;
 	public Graphics g;
 	public int xScale, yScale;
 	protected int gridWidth, gridHeight;
@@ -17,9 +18,9 @@ public abstract class AbstractView extends JPanel {
 	protected Dimension size;
 	protected Image fieldImage;
 
-	public AbstractView(AbstractModel newAbstractModel) {
-		this.abstractmodel=newAbstractModel;
-		this.abstractmodel.addView(this);
+	public AbstractView(Model newModel) {
+		this.model=newModel;
+		this.model.addView(this);
 		
 		this.size = new Dimension();
 		this.gridWidth = 100;
@@ -27,7 +28,7 @@ public abstract class AbstractView extends JPanel {
 	}
 	
 	public AbstractModel getModel() {
-		return this.abstractmodel;
+		return this.model;
 	}
 	
 	public void updateView(){

@@ -8,7 +8,8 @@ import VK.view.Location;
 
 public class Hunter extends Human {
 	
-	private final int MAX_KILLS = 3;
+	private int kills = 0;
+	private final int MAX_KILLS = 20;
     private static final Random rand = Randomizer.getRandom();
     
     /**
@@ -21,6 +22,7 @@ public class Hunter extends Human {
     {
         super(field, location);
         if (randomAge) this.age = rand.nextInt();
+        this.kills = rand.nextInt(this.MAX_KILLS);
     }
     
     /**
@@ -41,7 +43,9 @@ public class Hunter extends Human {
             }
             // See if it was possible to move.
             if(newLocation != null) {
-                setLocation(newLocation);
+            	this.kills++;
+            	if (this.kills >= this.MAX_KILLS) setDead();
+            	else setLocation(newLocation);
             }
             else {
             	// Overcrowding.
