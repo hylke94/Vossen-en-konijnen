@@ -10,6 +10,7 @@ import java.util.Random;
 import VK.actors.Actor;
 import VK.actors.Bear;
 import VK.actors.Fox;
+import VK.actors.Grass;
 import VK.actors.Hunter;
 import VK.actors.Rabbit;
 import VK.actors.Randomizer;
@@ -40,6 +41,8 @@ public class Model extends AbstractModel implements Runnable{
     private static final double BEAR_CREATION_PROBABILITY = 0.05;
     // The probability that a hunter will be created in any given grid position.
     private static final double HUNTER_CREATION_PROBABILITY = 0.008;
+    // The probability that a grass will be created in any given grid position.
+    private static final double GRASS_CREATION_PROBABILITY = 0.008;
     
     // Colors used for empty locations.
     private static final Color EMPTY_COLOR = Color.white;
@@ -97,6 +100,7 @@ public class Model extends AbstractModel implements Runnable{
         setColor(Fox.class, Color.blue);
         setColor(Bear.class, Color.red);
         setColor(Hunter.class, Color.black);
+        setColor(Grass.class, Color.green);
 	}
 	
 	/**
@@ -190,6 +194,11 @@ public class Model extends AbstractModel implements Runnable{
                     Location location = new Location(row, col);
                     Hunter hunter = new Hunter(true, this.field, location);
                     this.actors.add(hunter);
+                }
+                else if(rand.nextDouble() <= GRASS_CREATION_PROBABILITY) {
+                    Location location = new Location(row, col);
+                    Grass grass = new Grass(this.field, location);
+                    this.actors.add(grass);
                 }
             }
         }
@@ -324,6 +333,10 @@ public class Model extends AbstractModel implements Runnable{
     public float getCount(Class<?> actor)
     {
     	return this.stats.getCount(actor);
+    }
+    
+    public int getSteps(){
+    	return this.step;
     }
 
 	@Override

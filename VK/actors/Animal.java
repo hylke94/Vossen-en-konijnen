@@ -15,17 +15,17 @@ import VK.view.Location;
 public abstract class Animal implements Actor
 {
     // Whether the animal is alive or not.
-    private boolean alive;
+    private boolean alive = true;
     // The animal's field.
-    private Field field;
+    private Field field = null;
     // The animal's position in the field.
-    private Location location;
+    private Location location = null;
     // The animal's age
-    protected int age;
+    protected int age = 0;
     // A shared random number generator to control breeding.
     protected static final Random rand = Randomizer.getRandom();
     // The animal's food level, which is increased by eating rabbits.
- 	private int foodLevel;
+ 	protected int foodLevel = 0;
     
     /**
      * Create a new animal at location in field.
@@ -38,7 +38,6 @@ public abstract class Animal implements Actor
         this.alive = true;
         this.field = fieldInput;
         setLocation(locationInput);
-        this.age = 0;
     }
     
     public void setFoodLevel(int newFoodLevel){
@@ -155,10 +154,16 @@ public abstract class Animal implements Actor
     */
     protected void incrementAge() {
         this.age++;
-        if(this.age > getMaxAge()) {
-            setDead();
-        }
+        if(this.age > getMaxAge()) setDead();
     }
+    
+	/**
+	* Increase the age. This could result in the fox's death.
+	*/
+	protected void incrementHunger() {
+	    this.foodLevel--;
+	    if (this.foodLevel <= 0) setDead();
+	}
         
     /**
     * Returns the maximum age of an animal
@@ -192,13 +197,16 @@ public abstract class Animal implements Actor
         for(int b = 0; b < births && free.size() > 0; b++) {
             Location loc = free.remove(0);
             if (animal instanceof Fox){
-             young = new Fox(false, currentField, loc);
+            	young = new Fox(false, currentField, loc);
             }
             else if(animal instanceof Rabbit){
-             young = new Rabbit(false, currentField, loc);
+            	young = new Rabbit(false, currentField, loc);
             }
             else if(animal instanceof Bear){
-             young = new Rabbit(false, currentField, loc);
+            	young = new Rabbit(false, currentField, loc);
+            }
+            else if(animal instanceof Grass){
+                young = new Grass(currentField, loc);
             }
             newAnimals.add(young);
         }

@@ -18,19 +18,16 @@ public class Bear extends Animal
     // Characteristics shared by all foxes (static fields).
     
     // The age at which a bear can start to breed.
-	private static final int BREEDING_AGE = 20;
+	public static int breedingAge = 5;
 	// The age to which a fox can live.
-	private static final int MAX_AGE = 80;
+	public static int maxAge = 80;
 	// The likelihood of a fox breeding.
-	private static final double BREEDING_PROBABILITY = 0.30;
+	public static double breedingProbability = 0.25;
 	// The maximum number of births.
-	private static final int MAX_LITTER_SIZE = 4;
-	// The food value of a single fox. In effect, this is the
-	// number of steps a bear can go before it has to eat again.
-	private static final int FOX_FOOD_VALUE = 10;
-	// The food value of a single rabbit. In effect, this is the
-	// number of steps a bear can go before it has to eat again.
-	private static final int RABBIT_FOOD_VALUE = 5;
+	public static int maxLitterSize = 4;
+	// The food value of a single animal. In effect, this is the
+	// number of steps a animal can go before it has to eat again.
+	public static int food_value = 10;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -43,16 +40,13 @@ public class Bear extends Animal
     public Bear(boolean randomAge, Field field, Location location)
     {
     	super(field, location);
-        int foodLevel = 0;
         if(randomAge) {
-            this.age = rand.nextInt(MAX_AGE);
-            foodLevel = rand.nextInt(FOX_FOOD_VALUE);
+            this.age = rand.nextInt(maxAge);
         }
         else {
             this.age = 0;
-            foodLevel = FOX_FOOD_VALUE;
         }
-        setFoodLevel(foodLevel);
+        this.foodLevel = food_value;
     }
     
     /**
@@ -65,7 +59,7 @@ public class Bear extends Animal
     @Override
 	public void act(List<Actor> newBears)
     {
-        super.incrementAge();
+        incrementAge();
         incrementHunger();
         if(isAlive()) {
             giveBirth(newBears);            
@@ -106,7 +100,7 @@ public class Bear extends Animal
                 Fox fox = (Fox) animal;
                 if(fox.isAlive()) { 
                     fox.setDead();
-                    setFoodLevel(FOX_FOOD_VALUE);
+                    setFoodLevel(Bear.food_value);
                     // Remove the dead fox from the field.
                     return where;
                 }
@@ -115,7 +109,7 @@ public class Bear extends Animal
                 Rabbit rabbit = (Rabbit) animal;
                 if(rabbit.isAlive()) { 
                 	rabbit.setDead();
-                	setFoodLevel(RABBIT_FOOD_VALUE);
+                	setFoodLevel(Bear.food_value);
                     // Remove the dead fox from the field.
                     return where;
                 }
@@ -124,28 +118,23 @@ public class Bear extends Animal
         return null;
     }
     
-    private void incrementHunger(){
-    	setFoodLevel(getFoodLevel()-1);
-    	if(getFoodLevel() <= 0) setDead();
-    }
-    
     @Override
 	protected double getBreedingProbability(){
-    	return BREEDING_PROBABILITY;
+    	return breedingProbability;
     }
     
     @Override
 	protected int getMaxLitterSize(){
-    	return MAX_LITTER_SIZE;
+    	return maxLitterSize;
     }
 
 	@Override
 	protected int getBreedingAge() {
-		return BREEDING_AGE;
+		return breedingAge;
 	}
 	
     @Override
 	protected int getMaxAge(){
-    	return MAX_AGE;
+    	return maxAge;
     }
 }

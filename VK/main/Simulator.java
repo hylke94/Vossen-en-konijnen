@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 
 import VK.controller.Controller;
 import VK.model.Model;
+import VK.view.ControlView;
 import VK.view.FieldView;
 import VK.view.HistogramView;
 import VK.view.PieView;
@@ -31,6 +32,7 @@ public class Simulator extends JFrame
     public HistogramView hisview;
     public PieView pieview;
     public TextView txtview;
+    public ControlView conview;
     public Model model;
     public Controller controller;
     
@@ -52,12 +54,14 @@ public class Simulator extends JFrame
         this.hisview = new HistogramView(this.model);
         this.pieview = new PieView(this.model);
         this.txtview = new TextView(this.model);
+        this.conview = new ControlView(this.model);
     	this.controller = new Controller(this.model);
     	
     	JTabbedPane jtp = new JTabbedPane();
-    	jtp.addTab("Histogram", this.hisview);
     	jtp.addTab("Cirkeldiagram", this.pieview);
+    	jtp.addTab("Histogram", this.hisview);
     	jtp.addTab("Tekstview", this.txtview);
+    	jtp.addTab("Instellingen", this.conview);
     	
     	this.eastborder = new JPanel();
     	this.eastborder.add(jtp);

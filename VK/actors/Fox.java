@@ -15,19 +15,19 @@ import VK.view.Location;
  */
 public class Fox extends Animal
 {
-// Characteristics shared by all foxes (static fields).
+	// Characteristics shared by all foxes (static fields).
     
     // The age at which a fox can start to breed.
-    private static final int BREEDING_AGE = 10;
+	public static int breedingAge = 10;
     // The age to which a fox can live.
-    private static final int MAX_AGE = 100;
+    public static int maxAge = 50;
     // The likelihood of a fox breeding.
-    private static final double BREEDING_PROBABILITY = 0.40;
+    public static double breedingProbability = 0.30;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 5;
-    // The food value of a single rabbit. In effect, this is the
-    // number of steps a fox can go before it has to eat again.
-    private static final int RABBIT_FOOD_VALUE = 7;
+    public static int maxLitterSize = 3;
+	// The food value of a single animal. In effect, this is the
+	// number of steps a animal can go before it has to eat again.
+ 	public static int food_value = 10;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -41,13 +41,12 @@ public class Fox extends Animal
     {
         super(field, location);
         if(randomAge) {
-            this.age = rand.nextInt(MAX_AGE);
-            setFoodLevel(rand.nextInt(RABBIT_FOOD_VALUE));
+            this.age = rand.nextInt(maxAge);
         }
         else {
             this.age = 0;
-            setFoodLevel(RABBIT_FOOD_VALUE);
         }
+        this.foodLevel = food_value;
     }
     
     /**
@@ -60,7 +59,7 @@ public class Fox extends Animal
     @Override
     public void act(List<Actor> newFoxes)
     {
-        super.incrementAge();
+        incrementAge();
         incrementHunger();
         if(isAlive()) {
             giveBirth(newFoxes);            
@@ -82,11 +81,6 @@ public class Fox extends Animal
         }
     }
 
-	private void incrementHunger() {
-		setFoodLevel(getFoodLevel()-1);
-		if (getFoodLevel() <= 0) setDead();
-	}
-
 	/**
      * Tell the fox to look for rabbits adjacent to its current location.
      * Only the first live rabbit is eaten.
@@ -105,7 +99,7 @@ public class Fox extends Animal
                 Rabbit rabbit = (Rabbit) animal;
                 if(rabbit.isAlive()) { 
                     rabbit.setDead();
-                    setFoodLevel(RABBIT_FOOD_VALUE);
+                    setFoodLevel(Fox.food_value);
                     // Remove the dead rabbit from the field.
                     return where;
                 }
@@ -116,21 +110,21 @@ public class Fox extends Animal
 	
 	@Override
 	protected double getBreedingProbability(){
-    	return BREEDING_PROBABILITY;
+    	return breedingProbability;
     }    
     
     @Override
 	protected int getMaxLitterSize(){
-    	return MAX_LITTER_SIZE;
+    	return maxLitterSize;
     }
     
 	@Override
 	protected int getBreedingAge() {
-		return BREEDING_AGE;
+		return breedingAge;
 	}
 	
     @Override
 	protected int getMaxAge(){
-    	return MAX_AGE;
+    	return maxAge;
     }
 }

@@ -7,7 +7,8 @@ import VK.view.Location;
 
 public abstract class Human implements Actor {
 
-protected int age;
+	
+	protected int age;
 
 	// Whether the animal is alive or not.
     protected boolean alive;

@@ -1,5 +1,6 @@
 package VK.actors;
 
+import java.util.Iterator;
 import java.util.List;
 
 import VK.view.Field;
@@ -17,37 +18,35 @@ public class Rabbit extends Animal
 	// Characteristics shared by all rabbits (static fields).
 
     // The age at which a rabbit can start to breed.
-    private static final int BREEDING_AGE = 5;
+    public static int breedingAge = 5;
     // The age to which a rabbit can live.
-    private static final int MAX_AGE = 40;
+    public static int maxAge = 40;
     // The likelihood of a rabbit breeding.
-    private static final double BREEDING_PROBABILITY = 0.50;
+    public static double breedingProbability = 0.75;
     // The maximum number of births.
-    private static final int MAX_LITTER_SIZE = 4;
-	// The food value of a single grass. In effect, this is the
-	// number of steps a rabbit can go before it has to eat again.
-	private static final int GRASS_FOOD_VALUE = 5;
+    public static int maxLitterSize = 10;
+	// The food value of a single animal. In effect, this is the
+	// number of steps a animal can go before it has to eat again.
+    public static int food_value = 10;
 
     /**
      * Create a new rabbit. A rabbit may be created with age
      * zero (a new born) or with a random age.
      * 
      * @param randomAge If true, the rabbit will have a random age.
-     * @param field The field currently occupied.
-     * @param location The location within the field.
+     * @param fieldInput The field currently occupied.
+     * @param locationInput The location within the field.
      */
-    public Rabbit(boolean randomAge, Field field, Location location)
+    public Rabbit(boolean randomAge, Field fieldInput, Location locationInput)
     {
-        super(field, location);
-        this.age = 0;
+        super(fieldInput, locationInput);
         if(randomAge) {
-            this.age = rand.nextInt(MAX_AGE);
-            setFoodLevel(rand.nextInt(MAX_AGE));
+            this.age = rand.nextInt(maxAge);
         }
         else {
-        	this.age = MAX_AGE;
-        	setFoodLevel(GRASS_FOOD_VALUE);
+        	this.age = 0;
         }
+        this.foodLevel = food_value;
     }
     
     /**
@@ -58,12 +57,18 @@ public class Rabbit extends Animal
     @Override
     public void act(List<Actor> newRabbits)
     {
-        super.incrementAge();
+        incrementAge();
         incrementHunger();
         if(isAlive()) {
             giveBirth(newRabbits);            
-            // Try to move into a free location.
-            Location newLocation = getField().freeAdjacentLocation(getLocation());
+            // Move towards a source of food if found.
+            Location location = getLocation();
+            Location newLocation = findFood(location);
+            if(newLocation == null) { 
+                // No food found - try to move to a free location.
+                newLocation = getField().freeAdjacentLocation(location);
+            }
+            // See if it was possible to move.
             if(newLocation != null) {
                 setLocation(newLocation);
             }
@@ -72,33 +77,52 @@ public class Rabbit extends Animal
                 setDead();
             }
         }
-        else {
-        	setDead();
-        }
     }
 
-	private void incrementHunger() {
-		setFoodLevel(getFoodLevel()-1);
-		if (getFoodLevel() <= 0) setDead();
-	}
+	/**
+     * Tell the fox to look for rabbits adjacent to its current location.
+     * Only the first live rabbit is eaten.
+     * @param location Where in the field it is located.
+     * @return Where food was found, or null if it wasn't.
+     */
+	private Location findFood(@SuppressWarnings("unused") Location location)
+    {
+        Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object animal = field.getObjectAt(where);
+            if(animal instanceof Grass) {
+                Grass grass = (Grass) animal;
+                if(grass.isAlive()) { 
+                    grass.setDead();
+                    setFoodLevel(Rabbit.food_value);
+                    // Remove the dead rabbit from the field.
+                    return where;
+                }
+            }
+        }
+        return null;
+    }
     
     @Override
 	protected double getBreedingProbability(){
-    	return BREEDING_PROBABILITY;
+    	return breedingProbability;
     }
     
     @Override
 	protected int getMaxLitterSize(){
-    	return MAX_LITTER_SIZE;
+    	return maxLitterSize;
     }
 
 	@Override
 	protected int getBreedingAge() {
-		return BREEDING_AGE;
+		return breedingAge;
 	}
 	
     @Override
 	protected int getMaxAge(){
-    	return MAX_AGE;
+    	return maxAge;
     }
 }

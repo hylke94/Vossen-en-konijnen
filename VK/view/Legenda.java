@@ -20,8 +20,6 @@ public class Legenda extends JDialog implements ActionListener {
         int[] location = centerFrame(width, height);
 		this.setBounds(location[0], location[1], width, height);
 		
-		String vos = "Blauw: vos.";
-		
 		JTextArea textarea = new JTextArea("De volgende kleuren staan voor de volgende dingen: \n\n" +
 		"Blauw: Vos. \n" +
 		"Rood: Beer. \n" +

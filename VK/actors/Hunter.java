@@ -9,19 +9,20 @@ import VK.view.Location;
 public class Hunter extends Human {
 	
 	private int kills = 0;
-	private final int MAX_KILLS = 20;
+	private final int MAX_KILLS = 10;
     private static final Random rand = Randomizer.getRandom();
     
     /**
-     * Create a new animal at location in field.
+     * Create a new hunter at location in field.
      * 
-     * @param field1 The field currently occupied.
-     * @param location1 The location within the field.
+     * @param field The field currently occupied.
+     * @param location The location within the field.
      */
     public Hunter(boolean randomAge, Field field, Location location)
     {
         super(field, location);
         if (randomAge) this.age = rand.nextInt();
+        else this.age=0;
         this.kills = rand.nextInt(this.MAX_KILLS);
     }
     
@@ -43,14 +44,13 @@ public class Hunter extends Human {
             }
             // See if it was possible to move.
             if(newLocation != null) {
-            	this.kills++;
-            	if (this.kills >= this.MAX_KILLS) setDead();
-            	else setLocation(newLocation);
+            	setLocation(newLocation);
             }
             else {
             	// Overcrowding.
             	setDead();
             }
+        	if (this.kills >= this.MAX_KILLS) setDead();
         }
         else setDead();
     }
@@ -70,10 +70,15 @@ public class Hunter extends Human {
         	
             Object object = currentField.getObjectAt(targetLocation);
             
+            if (object instanceof Grass) {
+            	return null;
+            }
+            
             if(object instanceof Animal) {
                 Animal prey = (Animal) object;
                 if(prey.isAlive()) { 
                     prey.setDead();
+                    this.kills++;
                     return targetLocation;
                 }
             }

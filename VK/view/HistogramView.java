@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import VK.actors.Bear;
 import VK.actors.Fox;
+import VK.actors.Grass;
 import VK.actors.Hunter;
 import VK.actors.Rabbit;
 import VK.model.Model;
@@ -12,7 +13,7 @@ import VK.model.Model;
 @SuppressWarnings("serial")
 public class HistogramView extends AbstractView{
 	
-	private final int SCALE = 3;
+	private final int SCALE = 8;
 	
 	public HistogramView(Model newModel){
 		super(newModel);
@@ -24,12 +25,11 @@ public class HistogramView extends AbstractView{
 		gInput.setColor(Color.WHITE);
 		gInput.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		int height = this.getHeight();
-		
 		int rH = (Math.round(this.model.getCount(Rabbit.class)))/this.SCALE;
 		int fH = (Math.round(this.model.getCount(Fox.class)))/this.SCALE;
 		int bH = (Math.round(this.model.getCount(Bear.class)))/this.SCALE;
 		int hH = (Math.round(this.model.getCount(Hunter.class)))/this.SCALE;
+		int gH = (Math.round(this.model.getCount(Grass.class)))/this.SCALE;
 		
 		
 		gInput.setColor(this.model.getColor(Rabbit.class));
@@ -40,6 +40,8 @@ public class HistogramView extends AbstractView{
 		gInput.fillRect(130, 10, 50, (bH));
 		gInput.setColor(this.model.getColor(Hunter.class));
 		gInput.fillRect(190, 10, 50, (hH));
+		gInput.setColor(this.model.getColor(Grass.class));
+		gInput.fillRect(250, 10, 50, (gH));
 	}
 
 	@Override

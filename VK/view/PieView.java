@@ -5,6 +5,7 @@ import java.awt.Graphics;
 
 import VK.actors.Bear;
 import VK.actors.Fox;
+import VK.actors.Grass;
 import VK.actors.Hunter;
 import VK.actors.Rabbit;
 import VK.model.Model;
@@ -31,8 +32,9 @@ public class PieView extends AbstractView {
 		float fC=this.model.getCount(Fox.class);
 		float bC=this.model.getCount(Bear.class);
 		float hC=this.model.getCount(Hunter.class);
+		float gC=this.model.getCount(Grass.class);
 	  
-		float total = rC + fC + bC + hC;
+		float total = rC + fC + bC + hC + gC;
 	  
 		float temp = 0.0f;
 	  
@@ -47,6 +49,9 @@ public class PieView extends AbstractView {
 	  
 		temp = (3.6f * ((hC/total)*100));
 		int hA = Math.round(temp);
+		  
+		temp = (3.6f * ((gC/total)*100));
+		int gA = Math.round(temp);
 		
 		gInput.setColor(this.model.getColor(Rabbit.class));
 		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, 0, rA);
@@ -56,6 +61,8 @@ public class PieView extends AbstractView {
 		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, (fA + rA) , bA);
 		gInput.setColor(this.model.getColor(Hunter.class));
 		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, (fA + rA + bA) , hA);
+		gInput.setColor(this.model.getColor(Grass.class));
+		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, (fA + rA + bA + hA) , gA);
 	}
 
 	@Override
