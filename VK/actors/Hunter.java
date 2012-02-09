@@ -9,7 +9,7 @@ import VK.view.Location;
 public class Hunter extends Human {
 	
 	private int kills = 0;
-	private final int MAX_KILLS = 10;
+	public static int maxKills = 20;
     private static final Random rand = Randomizer.getRandom();
     
     /**
@@ -23,7 +23,7 @@ public class Hunter extends Human {
         super(field, location);
         if (randomAge) this.age = rand.nextInt();
         else this.age=0;
-        this.kills = rand.nextInt(this.MAX_KILLS);
+        this.kills = rand.nextInt(Hunter.maxKills);
     }
     
     /**
@@ -50,7 +50,7 @@ public class Hunter extends Human {
             	// Overcrowding.
             	setDead();
             }
-        	if (this.kills >= this.MAX_KILLS) setDead();
+        	if (this.kills >= Hunter.maxKills) setDead();
         }
         else setDead();
     }
@@ -65,7 +65,7 @@ public class Hunter extends Human {
         Field currentField = getField();
         List<Location> adjacent = currentField.adjacentLocations(getLocation());
         
-        for (int i=0; i<this.MAX_KILLS; i++) {
+        for (int i=0; i<Hunter.maxKills; i++) {
         	Location targetLocation = getRandomLocation(adjacent);
         	
             Object object = currentField.getObjectAt(targetLocation);

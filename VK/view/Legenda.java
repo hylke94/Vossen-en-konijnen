@@ -24,7 +24,8 @@ public class Legenda extends JDialog implements ActionListener {
 		"Blauw: Vos. \n" +
 		"Rood: Beer. \n" +
 		"Oranje: Konijn. \n" +
-		"Zwart: Jager.");
+		"Zwart: Jager. \n" +
+		"Groen: Gras.");
 		textarea.setLineWrap(true);
 		textarea.setWrapStyleWord(true);
 		

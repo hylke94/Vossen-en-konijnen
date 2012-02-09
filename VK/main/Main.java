@@ -4,11 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 import VK.controller.Controller;
 import VK.model.Model;
@@ -26,7 +29,7 @@ import VK.view.TextView;
  * @version 0.0
  */
 @SuppressWarnings("serial")
-public class Simulator extends JFrame
+public class Main extends JFrame
 {
     public FieldView fieldView;
     public HistogramView hisview;
@@ -46,8 +49,9 @@ public class Simulator extends JFrame
     
     /**
      * Construct a simulation field with default size.
+     * @throws Exception 
      */
-    public Simulator()
+    public Main() throws Exception
     {
         this.model = new Model(this);
     	this.fieldView = new FieldView(this.model);
@@ -91,7 +95,19 @@ public class Simulator extends JFrame
     	content.add(this.lblVersion, BorderLayout.SOUTH);
     	setResizable(false);
     	pack();
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    	//disable the close button
+    	setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+    	//create custom close operation
+    	addWindowListener(new WindowAdapter()
+    	{
+    		@Override
+			public void windowClosing(WindowEvent e)
+    		{
+    			Model.afsluiten();
+    		}
+    	});
+    	
     	setVisible(true);
     	this.model.reset();
         

@@ -27,7 +27,10 @@ public class Rabbit extends Animal
     public static int maxLitterSize = 10;
 	// The food value of a single animal. In effect, this is the
 	// number of steps a animal can go before it has to eat again.
-    public static int food_value = 10;
+    public static int foodValue = 15;
+    
+    public boolean isInfected = false;
+    public int stepsTillDead = 20;
 
     /**
      * Create a new rabbit. A rabbit may be created with age
@@ -46,7 +49,7 @@ public class Rabbit extends Animal
         else {
         	this.age = 0;
         }
-        this.foodLevel = food_value;
+        this.foodLevel = foodValue;
     }
     
     /**
@@ -58,24 +61,33 @@ public class Rabbit extends Animal
     public void act(List<Actor> newRabbits)
     {
         incrementAge();
+        if (this.isInfected) {
+        	this.stepsTillDead--;
+        }
         incrementHunger();
         if(isAlive()) {
-            giveBirth(newRabbits);            
-            // Move towards a source of food if found.
-            Location location = getLocation();
-            Location newLocation = findFood(location);
-            if(newLocation == null) { 
-                // No food found - try to move to a free location.
-                newLocation = getField().freeAdjacentLocation(location);
-            }
-            // See if it was possible to move.
-            if(newLocation != null) {
-                setLocation(newLocation);
-            }
-            else {
-                // Overcrowding.
-                setDead();
-            }
+        	if (this.stepsTillDead <= 0){
+        		setDead();
+        	}
+        	else {
+	            giveBirth(newRabbits);            
+	            // Move towards a source of food if found.
+	            Location location = getLocation();
+	            spreadInfection(location);
+	            Location newLocation = findFood(location);
+	            if(newLocation == null) { 
+	                // No food found - try to move to a free location.
+	                newLocation = getField().freeAdjacentLocation(location);
+	            }
+	            // See if it was possible to move.
+	            if(newLocation != null) {
+	                setLocation(newLocation);
+	            }
+	            else {
+	                // Overcrowding.
+	                setDead();
+	            }
+        	}
         }
     }
 
@@ -97,18 +109,13 @@ public class Rabbit extends Animal
                 Grass grass = (Grass) animal;
                 if(grass.isAlive()) { 
                     grass.setDead();
-                    setFoodLevel(Rabbit.food_value);
+                    setFoodLevel(Rabbit.foodValue);
                     // Remove the dead rabbit from the field.
                     return where;
                 }
             }
         }
         return null;
-    }
-    
-    @Override
-	protected double getBreedingProbability(){
-    	return breedingProbability;
     }
     
     @Override
@@ -124,5 +131,46 @@ public class Rabbit extends Animal
     @Override
 	protected int getMaxAge(){
     	return maxAge;
+    }
+	
+	@Override
+	protected double getBreedingProbability() {
+		return Fox.breedingProbability;
+	}
+
+	public static int getBreedingProbabilityInt() {
+		int i = ((int) (breedingProbability*100));
+		return i;
+	}
+
+	public static void setBreedingProbabilityInt(int j) {
+		breedingProbability = ((double) j/100);
+	}
+	
+	private void spreadInfection(@SuppressWarnings("unused") Location location) {
+     Field field = getField();
+        List<Location> adjacent = field.adjacentLocations(getLocation());
+        Iterator<Location> it = adjacent.iterator();
+        while(it.hasNext()) {
+            Location where = it.next();
+            Object actor = field.getObjectAt(where);
+            
+            if(actor instanceof Rabbit) {
+                Rabbit rabbit = (Rabbit) actor;
+                if(rabbit.isAlive()) {
+                    rabbit.makeSick();
+                }
+            }
+            
+        }
+
+    }
+    
+    public void makeSick() {
+    	this.isInfected = true;
+    }
+    
+    public boolean getSick() {
+    	return this.isInfected;
     }
 }

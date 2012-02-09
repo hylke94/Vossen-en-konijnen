@@ -205,4 +205,3 @@ public class Field
         return this.width;
     }
 }
-

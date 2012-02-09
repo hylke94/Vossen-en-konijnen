@@ -22,12 +22,12 @@ public class Fox extends Animal
     // The age to which a fox can live.
     public static int maxAge = 50;
     // The likelihood of a fox breeding.
-    public static double breedingProbability = 0.30;
+    public static double breedingProbability = 0.40;
     // The maximum number of births.
-    public static int maxLitterSize = 3;
+    public static int maxLitterSize = 5;
 	// The food value of a single animal. In effect, this is the
 	// number of steps a animal can go before it has to eat again.
- 	public static int food_value = 10;
+ 	public static int foodValue = 10;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -46,7 +46,7 @@ public class Fox extends Animal
         else {
             this.age = 0;
         }
-        this.foodLevel = food_value;
+        this.foodLevel = foodValue;
     }
     
     /**
@@ -99,7 +99,7 @@ public class Fox extends Animal
                 Rabbit rabbit = (Rabbit) animal;
                 if(rabbit.isAlive()) { 
                     rabbit.setDead();
-                    setFoodLevel(Fox.food_value);
+                    setFoodLevel(Fox.foodValue);
                     // Remove the dead rabbit from the field.
                     return where;
                 }
@@ -109,9 +109,18 @@ public class Fox extends Animal
     }
 	
 	@Override
-	protected double getBreedingProbability(){
-    	return breedingProbability;
-    }    
+	protected double getBreedingProbability() {
+		return Fox.breedingProbability;
+	}
+
+	public static int getBreedingProbabilityInt() {
+		int i = ((int) (breedingProbability*100));
+		return i;
+	}
+
+	public static void setBreedingProbabilityInt(int j) {
+		breedingProbability = ((double) j/100);
+	}   
     
     @Override
 	protected int getMaxLitterSize(){

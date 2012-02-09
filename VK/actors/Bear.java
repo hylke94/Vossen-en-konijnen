@@ -18,16 +18,16 @@ public class Bear extends Animal
     // Characteristics shared by all foxes (static fields).
     
     // The age at which a bear can start to breed.
-	public static int breedingAge = 5;
+	public static int breedingAge = 15;
 	// The age to which a fox can live.
 	public static int maxAge = 80;
 	// The likelihood of a fox breeding.
-	public static double breedingProbability = 0.25;
+	public static double breedingProbability = 0.05;
 	// The maximum number of births.
-	public static int maxLitterSize = 4;
+	public static int maxLitterSize = 1;
 	// The food value of a single animal. In effect, this is the
 	// number of steps a animal can go before it has to eat again.
-	public static int food_value = 10;
+	public static int foodValue = 8;
 
     /**
      * Create a fox. A fox can be created as a new born (age zero
@@ -46,7 +46,7 @@ public class Bear extends Animal
         else {
             this.age = 0;
         }
-        this.foodLevel = food_value;
+        this.foodLevel = foodValue;
     }
     
     /**
@@ -100,7 +100,7 @@ public class Bear extends Animal
                 Fox fox = (Fox) animal;
                 if(fox.isAlive()) { 
                     fox.setDead();
-                    setFoodLevel(Bear.food_value);
+                    setFoodLevel(Bear.foodValue);
                     // Remove the dead fox from the field.
                     return where;
                 }
@@ -109,7 +109,7 @@ public class Bear extends Animal
                 Rabbit rabbit = (Rabbit) animal;
                 if(rabbit.isAlive()) { 
                 	rabbit.setDead();
-                	setFoodLevel(Bear.food_value);
+                	setFoodLevel(Bear.foodValue);
                     // Remove the dead fox from the field.
                     return where;
                 }
@@ -117,11 +117,20 @@ public class Bear extends Animal
         }
         return null;
     }
-    
-    @Override
-	protected double getBreedingProbability(){
-    	return breedingProbability;
-    }
+	
+	@Override
+	protected double getBreedingProbability() {
+		return Fox.breedingProbability;
+	}
+
+	public static int getBreedingProbabilityInt() {
+		int i = ((int) (breedingProbability*100));
+		return i;
+	}
+
+	public static void setBreedingProbabilityInt(int j) {
+		breedingProbability = ((double) j/100);
+	}
     
     @Override
 	protected int getMaxLitterSize(){

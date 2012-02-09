@@ -13,7 +13,10 @@ import VK.model.Model;
 @SuppressWarnings("serial")
 public class HistogramView extends AbstractView{
 	
-	private final int SCALE = 8;
+	private int spaceBetween = 30;
+	private int rectWidth = 100;
+	private int spaceAround = 10;
+	private int maxRectHeight;
 	
 	public HistogramView(Model newModel){
 		super(newModel);
@@ -22,26 +25,66 @@ public class HistogramView extends AbstractView{
 	@Override
 	public void paintComponent(Graphics gInput)
 	{
+		this.maxRectHeight = (this.getHeight()-(2*this.spaceAround));
+		
+		// Teken de achtergrond
 		gInput.setColor(Color.WHITE);
 		gInput.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		int rH = (Math.round(this.model.getCount(Rabbit.class)))/this.SCALE;
-		int fH = (Math.round(this.model.getCount(Fox.class)))/this.SCALE;
-		int bH = (Math.round(this.model.getCount(Bear.class)))/this.SCALE;
-		int hH = (Math.round(this.model.getCount(Hunter.class)))/this.SCALE;
-		int gH = (Math.round(this.model.getCount(Grass.class)))/this.SCALE;
+		// Haal het aantal per actor op
+		double[] aantalActors = new double[5];
+		aantalActors[0] = (Math.round(this.model.getCount(Rabbit.class)));
+		aantalActors[1] = (Math.round(this.model.getCount(Fox.class)));
+		aantalActors[2] = (Math.round(this.model.getCount(Bear.class)));
+		aantalActors[3] = (Math.round(this.model.getCount(Hunter.class)));
+		aantalActors[4] = (Math.round(this.model.getCount(Grass.class)));
 		
+		// Zoek het maximum aantal
+		double maxAantal = 0;
+		for (int i=0; i<5; i++){
+			if (aantalActors[i]>maxAantal) maxAantal = aantalActors[i];
+		}
+		System.out.println();
 		
-		gInput.setColor(this.model.getColor(Rabbit.class));
-		gInput.fillRect(10, 10, 50, (rH));
-		gInput.setColor(this.model.getColor(Fox.class));
-		gInput.fillRect(70, 10, 50, (fH));
-		gInput.setColor(this.model.getColor(Bear.class));
-		gInput.fillRect(130, 10, 50, (bH));
-		gInput.setColor(this.model.getColor(Hunter.class));
-		gInput.fillRect(190, 10, 50, (hH));
-		gInput.setColor(this.model.getColor(Grass.class));
-		gInput.fillRect(250, 10, 50, (gH));
+		// Bereken percentage (aantal actors - hoogte scherm)
+		double[] perc = new double[5];
+		perc[0] = (aantalActors[0]/maxAantal)*100;
+		perc[1] = (aantalActors[1]/maxAantal)*100;
+		perc[2] = (aantalActors[2]/maxAantal)*100;
+		perc[3] = (aantalActors[3]/maxAantal)*100;
+		perc[4] = (aantalActors[4]/maxAantal)*100;
+		
+		// Bereken de hoogte van de balkjes
+		double[] rectHeight = new double[5];
+		rectHeight[0] = (int) (this.maxRectHeight*(perc[0]/100));
+		rectHeight[1] = (int) (this.maxRectHeight*(perc[1]/100));
+		rectHeight[2] = (int) (this.maxRectHeight*(perc[2]/100));
+		rectHeight[3] = (int) (this.maxRectHeight*(perc[3]/100));
+		rectHeight[4] = (int) (this.maxRectHeight*(perc[4]/100));
+		
+		// Centreer het frame
+		int rxr = ((this.getWidth()-(5*this.rectWidth+4*this.spaceBetween))/2);
+		int ryr = this.spaceAround;
+		int rxf = rxr + this.spaceBetween + this.rectWidth;
+		int ryf = this.spaceAround;
+		int rxb = rxf + this.spaceBetween + this.rectWidth;
+		int ryb = this.spaceAround;
+		int rxh = rxb + this.spaceBetween + this.rectWidth;
+		int ryh = this.spaceAround;
+		int rxg = rxh + this.spaceBetween + this.rectWidth;
+		int ryg = this.spaceAround;
+		
+		// Teken het histogram
+		gInput.setColor(Model.getColor(Rabbit.class));
+		gInput.fillRect(rxr, ryr, this.rectWidth, (int) (rectHeight[0]));
+		gInput.setColor(Model.getColor(Fox.class));
+		gInput.fillRect(rxf, ryf, this.rectWidth, (int) (rectHeight[1]));
+		gInput.setColor(Model.getColor(Bear.class));
+		gInput.fillRect(rxb, ryb, this.rectWidth, (int) (rectHeight[2]));
+		gInput.setColor(Model.getColor(Hunter.class));
+		gInput.fillRect(rxh, ryh, this.rectWidth, (int) (rectHeight[3]));
+		gInput.setColor(Model.getColor(Grass.class));
+		gInput.fillRect(rxg, ryg, this.rectWidth, (int) (rectHeight[4]));
 	}
 
 	@Override

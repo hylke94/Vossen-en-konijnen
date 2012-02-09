@@ -122,9 +122,9 @@ public class FieldStats
         reset();
         for(int row = 0; row < field.getDepth(); row++) {
             for(int col = 0; col < field.getWidth(); col++) {
-                Object animal = field.getObjectAt(row, col);
-                if(animal != null) {
-                    incrementCount(animal.getClass());
+                Object actor = field.getObjectAt(row, col);
+                if(actor != null) {
+                    incrementCount(actor.getClass());
                 }
             }
         }

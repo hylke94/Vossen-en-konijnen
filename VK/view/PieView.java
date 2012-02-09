@@ -14,7 +14,9 @@ import VK.model.Model;
 public class PieView extends AbstractView {
 	
 	// The size of the cirkel
-	private final int cirkelSize = 350;
+	private int cirkelSize;
+	// The distance between the pie and the end of the panel
+	private final int distance = 100;
 
 	/**
 	* Constructor
@@ -25,6 +27,9 @@ public class PieView extends AbstractView {
 	
 	@Override
 	public void paintComponent(Graphics gInput) {
+		if (this.getWidth()<this.getHeight()) this.cirkelSize = this.getWidth()-this.distance;
+		else this.cirkelSize=this.getHeight()-this.distance;
+		
 		gInput.setColor(Color.WHITE);
 		gInput.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
@@ -53,15 +58,15 @@ public class PieView extends AbstractView {
 		temp = (3.6f * ((gC/total)*100));
 		int gA = Math.round(temp);
 		
-		gInput.setColor(this.model.getColor(Rabbit.class));
+		gInput.setColor(Model.getColor(Rabbit.class));
 		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, 0, rA);
-		gInput.setColor(this.model.getColor(Fox.class));
+		gInput.setColor(Model.getColor(Fox.class));
 		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, rA, fA);
-		gInput.setColor(this.model.getColor(Bear.class));
+		gInput.setColor(Model.getColor(Bear.class));
 		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, (fA + rA) , bA);
-		gInput.setColor(this.model.getColor(Hunter.class));
+		gInput.setColor(Model.getColor(Hunter.class));
 		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, (fA + rA + bA) , hA);
-		gInput.setColor(this.model.getColor(Grass.class));
+		gInput.setColor(Model.getColor(Grass.class));
 		gInput.fillArc((this.getWidth()-this.cirkelSize)/2, (this.getHeight()-this.cirkelSize)/2, this.cirkelSize, this.cirkelSize, (fA + rA + bA + hA) , gA);
 	}
 

@@ -1,9 +1,14 @@
 package VK.controller;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
-
+import VK.actors.Bear;
+import VK.actors.Fox;
+import VK.actors.Grass;
+import VK.actors.Hunter;
+import VK.actors.Rabbit;
 import VK.model.Model;
 import VK.view.Legenda;
 
@@ -18,9 +23,6 @@ public class Controller extends AbstractController implements ActionListener {
 	
 	private JButton btnStart1, btnStart100, btnSimuleer, btnStart, btnStop, btnReset;
 	private JTextField aantalStappen;
-	
-	private String steps;
-	public static int toRun = 0;
 
 	public Controller(Model newModel) {
 		super(newModel);
@@ -37,8 +39,14 @@ public class Controller extends AbstractController implements ActionListener {
 	 * @return JPanel
 	 */
 	public JPanel makeWestBorder() {
+		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
+		JPanel panel3 = new JPanel();
 		JPanel westborder = new JPanel();
+
+		panel1.setLayout(new GridLayout(0,1));
+		panel2.setLayout(new GridLayout(0,1));
+		panel3.setLayout(new GridLayout(0,1));
 		
 		//Make buttons
 		this.btnStart1 = new JButton("Step 1");
@@ -61,10 +69,11 @@ public class Controller extends AbstractController implements ActionListener {
 		this.btnReset = new JButton("Reset");
 		this.btnReset.addActionListener(this);
 		
-		//An empty label, to create an empty line in the buttonmenu
+		// An empty label, to create an empty lines
 		JLabel emptyLabel1 = new JLabel();
 		JLabel emptyLabel2 = new JLabel();
 		JLabel emptyLabel3 = new JLabel();
+		JLabel emptyLabel4 = new JLabel();
 		
 		//Make frames
 		panel2.add(this.btnStart1);
@@ -81,9 +90,41 @@ public class Controller extends AbstractController implements ActionListener {
 		panel2.add(emptyLabel3);
 		panel2.add(this.btnReset);
 		
-		panel2.setLayout(new GridLayout(0,1));
+		// Labels for every actor
+		JLabel lblLegenda = new JLabel("Legenda", SwingConstants.CENTER);
+		JLabel lblRabbits = new JLabel("Rabbits", SwingConstants.CENTER);
+			lblRabbits.setForeground(Model.getColor(Rabbit.class));
+			lblRabbits.setOpaque(true);
+			lblRabbits.setBackground(Color.white);
+		JLabel lblFoxes = new JLabel("Foxes", SwingConstants.CENTER);
+			lblFoxes.setForeground(Model.getColor(Fox.class));
+			lblFoxes.setOpaque(true);
+			lblFoxes.setBackground(Color.white);
+		JLabel lblBears = new JLabel("Bears", SwingConstants.CENTER);
+			lblBears.setForeground(Model.getColor(Bear.class));
+			lblBears.setOpaque(true);
+			lblBears.setBackground(Color.white);
+		JLabel lblHunters = new JLabel("Hunters", SwingConstants.CENTER);
+			lblHunters.setForeground(Model.getColor(Hunter.class));
+			lblHunters.setOpaque(true);
+			lblHunters.setBackground(Color.white);
+		JLabel lblGrass = new JLabel("Grass", SwingConstants.CENTER);
+			lblGrass.setForeground(Model.getColor(Grass.class));
+			lblGrass.setOpaque(true);
+			lblGrass.setBackground(Color.white);
 		
-		westborder.add(panel2);
+		panel3.add(emptyLabel4);
+		panel3.add(lblLegenda);
+		panel3.add(lblRabbits);
+		panel3.add(lblFoxes);
+		panel3.add(lblBears);
+		panel3.add(lblHunters);
+		panel3.add(lblGrass);
+		
+		panel1.add(panel2);
+		panel1.add(panel3);
+		
+		westborder.add(panel1);
 		westborder.setVisible(true);
 		
 		return westborder;
@@ -149,17 +190,11 @@ public class Controller extends AbstractController implements ActionListener {
 	    }
 	    if(e.getActionCommand() == "Simuleer"){
 	    	try{
-	    		this.steps = this.aantalStappen.getText();
-	    		int aantal = Integer.parseInt(this.steps);
-	
-	    		toRun = aantal;
-	
-	    		if (aantal<=0)
-	    			System.out.println("Aantal dagen mag geen 0 zijn!");
-	    		else{
-	    			if (this.model.run == true) this.model.stop();
-	    			this.model.simulate(toRun);
-	    		}
+	    		String steps = this.aantalStappen.getText();
+	    		int aantal = Integer.parseInt(steps);
+
+	    		if (! this.model.run) this.model.simulate(aantal);
+	    		else System.out.println("U moet eerst de simulatie stoppen!");
 	    	}
 	    	catch (Exception exc){
 	    		System.out.println("Voer een positief getal in!");
@@ -187,7 +222,7 @@ public class Controller extends AbstractController implements ActionListener {
 			Legenda lgd = new Legenda(new JFrame(), "Legenda");
 	    }
 	    if(e.getActionCommand() == "Afsluiten"){
-	    	System.exit(0);
+	    	Model.afsluiten();
 	    }
     }
 }

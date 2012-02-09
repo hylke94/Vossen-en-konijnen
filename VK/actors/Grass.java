@@ -10,11 +10,11 @@ public class Grass extends Animal{
 	// Characteristics shared by all foxes (static fields).
     
     // The age at which a fox can start to breed.
-    private static int breedingAge = 0;
+    public static int breedingAge = 1;
     // The likelihood of a fox breeding.
-    private static double breedingProbability = 0.10;
+    public static double breedingProbability = 0.45;
     // The maximum number of births.
-    private static int maxLitterSize = 1;
+    public static int maxLitterSize = 1;
     
     /**
      * Constructor
@@ -24,6 +24,7 @@ public class Grass extends Animal{
      */
 	public Grass(Field fieldInput, Location locationInput) {
 		super(fieldInput, locationInput);
+		this.age = 1;
 	}
     
     /**
@@ -41,9 +42,18 @@ public class Grass extends Animal{
     }
 	
 	@Override
-	protected double getBreedingProbability(){
-    	return breedingProbability;
-    }    
+	protected double getBreedingProbability() {
+		return Fox.breedingProbability;
+	}
+
+	public static int getBreedingProbabilityInt() {
+		int i = ((int) (breedingProbability*100));
+		return i;
+	}
+
+	public static void setBreedingProbabilityInt(int j) {
+		breedingProbability = ((double) j/100);
+	}
     
     @Override
 	protected int getMaxLitterSize(){
