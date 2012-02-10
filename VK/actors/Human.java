@@ -4,7 +4,12 @@ import java.util.List;
 
 import VK.view.Field;
 import VK.view.Location;
-
+/**
+ * The abstract class Human.
+ * Provides methods that can be used when Human is extended.
+ * @author Pim
+ *
+ */
 public abstract class Human implements Actor {
 
 	
@@ -17,6 +22,12 @@ public abstract class Human implements Actor {
     // The animal's position in the field.
     private Location location;
     
+    /**
+     * Creates a new Human
+     * 
+     * @param Field fieldInput
+     * @param Location locationInput
+     */
     public Human(Field fieldInput, Location locationInput)
     {
     	this.alive = true;

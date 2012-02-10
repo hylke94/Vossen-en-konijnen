@@ -5,6 +5,12 @@ import java.util.List;
 import VK.view.Field;
 import VK.view.Location;
 
+/**
+ * The class Grass
+ * Creates and has all the settings for Grass
+ * @author Pim
+ *
+ */
 public class Grass extends Animal{
 	
 	// Characteristics shared by all foxes (static fields).
@@ -17,10 +23,10 @@ public class Grass extends Animal{
     public static int maxLitterSize = 1;
     
     /**
-     * Constructor
+     * Constructs a new piece of Grass
      * 
-     * @param fieldInput
-     * @param locationInput
+     * @param Field fieldInput
+     * @param LocationlocationInput
      */
 	public Grass(Field fieldInput, Location locationInput) {
 		super(fieldInput, locationInput);
