@@ -117,11 +117,21 @@ public class Rabbit extends Animal
         }
         return null;
     }
+	
+	/**
+	 * Gets the max litter size of a Rabbit
+	 * @return int the maximum litter size
+	 */
     
     @Override
 	protected int getMaxLitterSize(){
     	return maxLitterSize;
     }
+    
+    /**
+     * Gets the breeding age of a Rabbit
+     * @return int the breeding age
+     */
 
 	@Override
 	protected int getBreedingAge() {
