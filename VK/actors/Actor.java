@@ -4,10 +4,12 @@ import java.util.List;
 
 import VK.view.Field;
 import VK.view.Location;
+
 /**
  * The interface Actor 
  * Provides methods that should be implemented 
  */
+
 public interface Actor {
 	
 	public boolean alive = true;
