@@ -59,6 +59,7 @@ public class Model extends AbstractModel implements Runnable{
 	// A graphical view of the simulation.
 
 	public boolean run = false;
+	public static int waitTime = 100;
 
 	private static LinkedHashMap<Class<?>, Color> colors;
 
@@ -272,6 +273,48 @@ public class Model extends AbstractModel implements Runnable{
 		return col;
 	}
 
+	public static void setColor(Class<?> animalClass, Color color)
+	{
+		colors.put(animalClass, color);
+	}
+
+	public float getCount(Class<?> actor)
+	{
+		return this.stats.getCount(actor);
+	}
+
+	public int getSteps(){
+		return this.step;
+	}
+	
+	public static int getWaitTime() {
+		int snelheid = 1;
+		if (waitTime <= 50) snelheid = 10;
+		else if (waitTime <= 75) snelheid = 9;
+		else if (waitTime <= 100) snelheid = 8;
+		else if (waitTime <= 125) snelheid = 7;
+		else if (waitTime <= 150) snelheid = 6;
+		else if (waitTime <= 175) snelheid = 5;
+		else if (waitTime <= 200) snelheid = 4;
+		else if (waitTime <= 225) snelheid = 3;
+		else if (waitTime <= 250) snelheid = 2;
+		else if (waitTime <= 275) snelheid = 1;
+		
+		return snelheid;
+	}
+	
+	public static void setWaitTime(int snelheid) {
+		if (snelheid == 10) waitTime = 50;
+		else if (snelheid == 9) waitTime = 75;
+		else if (snelheid == 8) waitTime = 100;
+		else if (snelheid == 7) waitTime = 125;
+		else if (snelheid == 6) waitTime = 150;
+		else if (snelheid == 5) waitTime = 175;
+		else if (snelheid == 4) waitTime = 200;
+		else if (snelheid == 3) waitTime = 225;
+		else if (snelheid == 2) waitTime = 250;
+		else if (snelheid == 1) waitTime = 275;
+	}
 
 	/**
 	 * Methode om de applicatie te laten starten
@@ -286,13 +329,12 @@ public class Model extends AbstractModel implements Runnable{
 				Model.this.run = true;
 				while(Model.this.run){
 					simulate(1);
-					pause(50);
+					pause(waitTime);
 				}
 			}
 		});
 		thread.start();
 	}
-
 
 	/**
 	 * Stop the application
@@ -300,7 +342,6 @@ public class Model extends AbstractModel implements Runnable{
 	public void stop() {
 		this.run = false;
 	}
-
 
 	/**
 	 * Pause the application
@@ -315,20 +356,6 @@ public class Model extends AbstractModel implements Runnable{
 		}
 	}
 
-	public static void setColor(Class<?> animalClass, Color color)
-	{
-		colors.put(animalClass, color);
-	}
-
-	public float getCount(Class<?> actor)
-	{
-		return this.stats.getCount(actor);
-	}
-
-	public int getSteps(){
-		return this.step;
-	}
-
 	@Override
 	public void run() {
 		this.run=true;
@@ -338,7 +365,7 @@ public class Model extends AbstractModel implements Runnable{
 			notifyViews();
 			try
 			{
-				Thread.sleep(100);
+				Thread.sleep(waitTime);
 			}
 			catch (Exception e)
 			{

@@ -55,6 +55,11 @@ public class ControlView extends AbstractView implements ActionListener{
 	private JLabel lblBreedingProbabilitygrass, lblMaxLitterSizegrass;
 	private JSlider slBreedingProbabilitygrass, slMaxLitterSizegrass;
 	
+	//----- De labels en sliders voor de jagers
+	
+	private JLabel lblSnelheid;
+	private JSlider slSnelheid;
+	
 	//----- De knop om de simulatie te herstarten met de niewe instellingen
 	
 	private JButton btnReset;
@@ -270,6 +275,26 @@ public class ControlView extends AbstractView implements ActionListener{
 		
 			grassPanel.add(grassPanel2);
 			
+		//----- Het JPanel voor de instellingen van de simulatie
+						
+		JPanel simPanel = new JPanel();
+			simPanel.setBorder(makeBorder("Simulatie"));
+			simPanel.setLayout(new GridLayout(0,1));
+			
+				JPanel simPanel2 = new JPanel();
+				simPanel2.setLayout(new GridLayout(0,2));
+				this.lblSnelheid = new JLabel("Snelheid:");
+					this.slSnelheid = new JSlider(1, 10, Model.getWaitTime());
+					this.slSnelheid.setMajorTickSpacing(1);
+					this.slSnelheid.setMinorTickSpacing(1);
+					this.slSnelheid.setPaintTicks(true);
+					this.slSnelheid.setPaintLabels(true);
+				
+				simPanel2.add(this.lblSnelheid);
+				simPanel2.add(this.slSnelheid);
+	
+			simPanel.add(simPanel2);
+			
 		//----- Het JPanel met de reset-button
 		
 		JPanel panel = new JPanel();
@@ -277,12 +302,14 @@ public class ControlView extends AbstractView implements ActionListener{
 		this.btnReset.addActionListener(this);
 		panel.add(this.btnReset);
 		
-		//----- Het JPanel om de instellingen van de jagers en het gras bij elkaar in "één hokje" te krijgen
+		//----- Het JPanel om de instellingen van de jagers, het gras 
+		//----- en de simulatie bij elkaar in "één hokje" te krijgen
 		
-		JPanel hunterAndGrass = new JPanel();
-		hunterAndGrass.setLayout(new BorderLayout());
-		hunterAndGrass.add(hunterPanel, BorderLayout.NORTH);
-		hunterAndGrass.add(grassPanel, BorderLayout.CENTER);
+		JPanel combiPanel = new JPanel();
+		combiPanel.setLayout(new BorderLayout());
+		combiPanel.add(hunterPanel, BorderLayout.NORTH);
+		combiPanel.add(grassPanel, BorderLayout.CENTER);
+		combiPanel.add(simPanel, BorderLayout.SOUTH);
 		
 		//----- Het JPanel waar alle JPanels met de instellingen in komen
 		
@@ -291,7 +318,7 @@ public class ControlView extends AbstractView implements ActionListener{
 				controlPanel.add(rabbitPanel);
 				controlPanel.add(foxPanel);
 				controlPanel.add(bearPanel);
-				controlPanel.add(hunterAndGrass);
+				controlPanel.add(combiPanel);
 		
 		//----- Zet alle JPanels n ht algemene JPanel dat de gebruiker ziet
 		
@@ -323,6 +350,8 @@ public class ControlView extends AbstractView implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getSource() == this.btnReset){
+    		
+			if (this.model.run) this.model.stop();
 			
 			int newValue;
 	    	
@@ -376,10 +405,14 @@ public class ControlView extends AbstractView implements ActionListener{
 	    		Grass.setBreedingProbabilityInt(newValue);
 	    	newValue = this.slMaxLitterSizegrass.getValue();
 	    		Grass.maxLitterSize = newValue;
+				    	
+			//----- Simulatie instellingen wijzigen
+			
+			newValue = this.slSnelheid.getValue();
+				Model.setWaitTime(newValue);
 	    		
 	    	//----- Reset de simulatie met de nieuwe instellingen
-	    		
-	    	if (this.model.run) this.model.stop();
+				
 	    	this.model.reset();
 		}
 	}

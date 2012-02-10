@@ -1,7 +1,5 @@
 package VK.saver;
 
-import java.awt.Toolkit;
-
 import VK.model.actors.Bear;
 import VK.model.actors.Fox;
 import VK.model.actors.Grass;
@@ -107,16 +105,16 @@ public class Values
     @SuppressWarnings("static-method")
 	private byte[] build(int fullBytes, int remainder)
     {
-        if(remainder>0) fullBytes++;
-        byte[] buildUp = new byte[fullBytes];
+    	int fullbytes = fullBytes;
+        if(remainder>0) fullbytes++;
+        byte[] buildUp = new byte[fullbytes];
         
-        for(int i=0;i<fullBytes-1;i++) {
+        for(int i=0;i<fullbytes-1;i++) {
             buildUp[i] = 127;
         }
         buildUp[buildUp.length-1] = (byte) remainder;
         return buildUp;
     }
-    
     
     @SuppressWarnings("static-method")
 	private byte[][] buildSliders()
