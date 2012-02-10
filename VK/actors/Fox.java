@@ -108,30 +108,54 @@ public class Fox extends Animal
         return null;
     }
 	
+	/**
+	 * Returns the breeding probability of a fox
+	 * @return the breedingprobability
+	 */
 	@Override
 	protected double getBreedingProbability() {
 		return Fox.breedingProbability;
 	}
-
+	
+	/**
+	 * Returns the breeding probability of a fox as Integer
+	 * @return the breedingprobability
+	 */
 	public static int getBreedingProbabilityInt() {
 		int i = ((int) (breedingProbability*100));
 		return i;
 	}
-
+	
+	/**
+	 * Sets the breeding probability
+	 * @param int j the new breeding probability
+	 */
 	public static void setBreedingProbabilityInt(int j) {
 		breedingProbability = ((double) j/100);
-	}   
-    
+	}  
+	
+	/**
+	 * Gets the maximum litter size of a Fox
+	 * @return int the maximum litter size
+	 */
     @Override
 	protected int getMaxLitterSize(){
     	return maxLitterSize;
     }
     
+	/**
+	 * Gets the minimum breeding age of a Fox
+	 * @return int the breeding age
+	 */
 	@Override
 	protected int getBreedingAge() {
 		return breedingAge;
 	}
 	
+	/**
+	 * Returns the maximum age a Fox can get
+	 * @return the maximum age
+	 */
     @Override
 	protected int getMaxAge(){
     	return maxAge;
