@@ -1,4 +1,4 @@
-package VK.pictures;
+package VK.utils.pictures;
 
 import java.awt.*;
 
@@ -21,7 +21,7 @@ public class SplashScreen extends JWindow {
 		panel.setBackground(Color.white);
 
 		// Build the splash screen
-		JLabel image = new JLabel(new ImageIcon("src/VK/pictures/vos_konijn.jpg"));
+		JLabel image = new JLabel(new ImageIcon("src/VK/utils/pictures/vos_konijn.jpg"));
 		JLabel info = new JLabel("Project \"Vossen & konijnen\"", SwingConstants.CENTER);
 		JLabel info2 = new JLabel("Gemaakt door Freddy, Hylke, Pim en Ole", SwingConstants.CENTER);
 		info.setFont(new Font("Sans-Serif", Font.BOLD, 12));

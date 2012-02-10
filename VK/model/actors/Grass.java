@@ -1,4 +1,4 @@
-package VK.actors;
+package VK.model.actors;
 
 import java.util.List;
 

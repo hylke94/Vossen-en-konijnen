@@ -2,6 +2,11 @@ package VK.controller;
 
 import javax.swing.*;
 
+/**
+ * The abstracte controller
+ * Provides methods that should be implemented 
+ */
+
 import VK.model.Model;
 
 @SuppressWarnings("serial")

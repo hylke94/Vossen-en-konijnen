@@ -115,6 +115,11 @@ public class Main extends JFrame
         this.setLocation(location[0], location[1]);
     }
 	
+    /**
+     * Set the frame in the center of the screen
+     * @param JFrame
+     * @return int[] Array, [0] = x, [1] = y
+     */
 	public static int[] centerFrame(JFrame frame){
 		int[] place = new int[2];
         int frameHeight = frame.getHeight();

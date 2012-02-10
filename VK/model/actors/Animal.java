@@ -1,8 +1,9 @@
-package VK.actors;
+package VK.model.actors;
 
 import java.util.List;
 import java.util.Random;
 
+import VK.utils.Randomizer;
 import VK.view.Field;
 import VK.view.Location;
 

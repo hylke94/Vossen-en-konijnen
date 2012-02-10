@@ -1,4 +1,4 @@
-package VK.actors;
+package VK.utils;
 import java.util.Random;
 
 /**

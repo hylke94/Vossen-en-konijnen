@@ -14,12 +14,12 @@ import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import VK.actors.Bear;
-import VK.actors.Fox;
-import VK.actors.Grass;
-import VK.actors.Hunter;
-import VK.actors.Rabbit;
 import VK.model.Model;
+import VK.model.actors.Bear;
+import VK.model.actors.Fox;
+import VK.model.actors.Grass;
+import VK.model.actors.Hunter;
+import VK.model.actors.Rabbit;
 
 @SuppressWarnings("serial")
 public class ControlView extends AbstractView implements ActionListener{

@@ -1,4 +1,4 @@
-package VK.sound;
+package VK.utils.sound;
 
 import javax.sound.sampled.*;
 

@@ -7,16 +7,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
-import VK.actors.Actor;
-import VK.actors.Bear;
-import VK.actors.Fox;
-import VK.actors.Grass;
-import VK.actors.Hunter;
-import VK.actors.Rabbit;
-import VK.actors.Randomizer;
-import VK.controller.Controller;
 import VK.main.Main;
-import VK.sound.SoundPlayer;
+import VK.model.actors.Actor;
+import VK.model.actors.Bear;
+import VK.model.actors.Fox;
+import VK.model.actors.Grass;
+import VK.model.actors.Hunter;
+import VK.model.actors.Rabbit;
+import VK.utils.Randomizer;
+import VK.utils.sound.SoundPlayer;
 import VK.view.Field;
 import VK.view.FieldStats;
 import VK.view.Location;
@@ -350,7 +349,7 @@ public class Model extends AbstractModel implements Runnable{
 
 	@SuppressWarnings("unused")
 	public static void afsluiten(){
-		new SoundPlayer("src/VK/sound/system-shutting-down.wav", 1);
+		new SoundPlayer("src/VK/utils/sound/system-shutting-down.wav", 1);
 		System.exit(0);
 	}
 

@@ -4,11 +4,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.*;
 import javax.swing.*;
-import VK.actors.Bear;
-import VK.actors.Fox;
-import VK.actors.Grass;
-import VK.actors.Hunter;
-import VK.actors.Rabbit;
 import VK.model.Model;
 import VK.view.Legenda;
 
@@ -23,7 +18,14 @@ public class Controller extends AbstractController implements ActionListener {
 	
 	private JButton btnStart1, btnStart100, btnSimuleer, btnStart, btnStop, btnReset;
 	private JTextField aantalStappen;
-
+	
+	
+	/**
+	 * Constructor
+	 * Sends a Model to the superclass AbstractController
+	 * 
+	 * @param newModel
+	 */
 	public Controller(Model newModel) {
 		super(newModel);
 
@@ -34,16 +36,19 @@ public class Controller extends AbstractController implements ActionListener {
 	
 	/**
 	 * Makes a JPanel with a BoxLayout.
-	 * Contains buttons
+	 * Contains the buttons foor the simulation
 	 * 
 	 * @return JPanel
 	 */
 	public JPanel makeWestBorder() {
+		
+		// Make all of the panels
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
 		JPanel panel3 = new JPanel();
 		JPanel westborder = new JPanel();
-
+		
+		// Set the layout of every panel
 		panel1.setLayout(new GridLayout(0,1));
 		panel2.setLayout(new GridLayout(0,1));
 		panel3.setLayout(new GridLayout(0,1));
@@ -75,7 +80,7 @@ public class Controller extends AbstractController implements ActionListener {
 		JLabel emptyLabel3 = new JLabel();
 		JLabel emptyLabel4 = new JLabel();
 		
-		//Make frames
+		// Set the buttons on the panel
 		panel2.add(this.btnStart1);
 		panel2.add(this.btnStart100);
 		
@@ -90,29 +95,30 @@ public class Controller extends AbstractController implements ActionListener {
 		panel2.add(emptyLabel3);
 		panel2.add(this.btnReset);
 		
-		// Labels for every actor
+		// Labels for every actor for the legenda
 		JLabel lblLegenda = new JLabel("Legenda", SwingConstants.CENTER);
 		JLabel lblRabbits = new JLabel("Rabbits", SwingConstants.CENTER);
-			lblRabbits.setForeground(Model.getColor(Rabbit.class));
+			lblRabbits.setForeground(Model.getColor(VK.model.actors.Rabbit.class));
 			lblRabbits.setOpaque(true);
 			lblRabbits.setBackground(Color.white);
 		JLabel lblFoxes = new JLabel("Foxes", SwingConstants.CENTER);
-			lblFoxes.setForeground(Model.getColor(Fox.class));
+			lblFoxes.setForeground(Model.getColor(VK.model.actors.Fox.class));
 			lblFoxes.setOpaque(true);
 			lblFoxes.setBackground(Color.white);
 		JLabel lblBears = new JLabel("Bears", SwingConstants.CENTER);
-			lblBears.setForeground(Model.getColor(Bear.class));
+			lblBears.setForeground(Model.getColor(VK.model.actors.Bear.class));
 			lblBears.setOpaque(true);
 			lblBears.setBackground(Color.white);
 		JLabel lblHunters = new JLabel("Hunters", SwingConstants.CENTER);
-			lblHunters.setForeground(Model.getColor(Hunter.class));
+			lblHunters.setForeground(Model.getColor(VK.model.actors.Hunter.class));
 			lblHunters.setOpaque(true);
 			lblHunters.setBackground(Color.white);
 		JLabel lblGrass = new JLabel("Grass", SwingConstants.CENTER);
-			lblGrass.setForeground(Model.getColor(Grass.class));
+			lblGrass.setForeground(Model.getColor(VK.model.actors.Grass.class));
 			lblGrass.setOpaque(true);
 			lblGrass.setBackground(Color.white);
 		
+		// Put the labels on the legenda
 		panel3.add(emptyLabel4);
 		panel3.add(lblLegenda);
 		panel3.add(lblRabbits);
@@ -121,6 +127,7 @@ public class Controller extends AbstractController implements ActionListener {
 		panel3.add(lblHunters);
 		panel3.add(lblGrass);
 		
+		// Put the buttonpanelad the legenda in one panel
 		panel1.add(panel2);
 		panel1.add(panel3);
 		
@@ -180,7 +187,8 @@ public class Controller extends AbstractController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-	    //--------- Knoppen
+    	
+	    //----- buttons
 	
 	    if(e.getActionCommand() == "Step 1"){
 	    	this.model.simulateOneStep();
@@ -215,7 +223,7 @@ public class Controller extends AbstractController implements ActionListener {
 	    	System.out.println("Test gelukt");
 	    }
 	
-	    //--- Menu items
+	    //----- Menu items
 	
 	    if (e.getActionCommand() == "Legenda"){
 	    	@SuppressWarnings("unused")

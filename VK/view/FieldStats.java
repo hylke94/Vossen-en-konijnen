@@ -1,7 +1,8 @@
 package VK.view;
 import java.util.HashMap;
 
-import VK.actors.Counter;
+import VK.utils.Counter;
+
 
 
 /**

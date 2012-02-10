@@ -1,8 +1,8 @@
 package VK;
 
 import VK.main.Main;
-import VK.pictures.SplashScreen;
-import VK.sound.SoundPlayer;
+import VK.utils.pictures.SplashScreen;
+import VK.utils.sound.SoundPlayer;
 
 /**
  * Een klasse om de applicatie te testen/runnen
@@ -11,11 +11,13 @@ import VK.sound.SoundPlayer;
  * @version 1.0
  */
 public class Starter {
+	
+	
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args){
 			
-		SoundPlayer startSound = new SoundPlayer("src/VK/sound/system-starting-up.wav", 1);
+		SoundPlayer startSound = new SoundPlayer("src/VK/utils/sound/system-starting-up.wav", 1);
 
 		SplashScreen splash = new SplashScreen(5000);
 
