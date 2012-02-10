@@ -12,11 +12,11 @@ import VK.utils.sound.SoundPlayer;
  */
 public class Starter {
 	
-	
+	public static Main main;
 
-	@SuppressWarnings("unused")
 	public static void main(String[] args){
 			
+		@SuppressWarnings("unused")
 		SoundPlayer startSound = new SoundPlayer("src/VK/utils/sound/system-starting-up.wav", 1);
 
 		SplashScreen splash = new SplashScreen(5000);
@@ -24,7 +24,7 @@ public class Starter {
 		splash.showSplashAndExit();
 
 		try {
-			new Main();
+			main = new Main();
 		}
 		catch (Exception e) {
 			e.getStackTrace();

@@ -36,6 +36,7 @@ public class Grass extends Animal {
 	 * In the process, it might breed 
 	 * @param newGrass A list to add newly born grass to.
 	 */
+	@Override
 	public void act(List<Actor> newGrass)
 	{
 		if(isAlive()) {
@@ -47,6 +48,7 @@ public class Grass extends Animal {
 	 * Returns the breeding probability of a piece of grass
 	 * @return the breedingprobability
 	 */
+	@Override
 	protected double getBreedingProbability() {
 		return Fox.breedingProbability;
 	}
@@ -72,6 +74,7 @@ public class Grass extends Animal {
 	 * Gets the maximum litter size of a piece of Grass
 	 * @return int the maximum litter size
 	 */
+	@Override
 	protected int getMaxLitterSize(){
 		return maxLitterSize;
 	}
@@ -80,6 +83,7 @@ public class Grass extends Animal {
 	 * Gets the minimum breeding age of a piece of Grass
 	 * @return int the breeding age
 	 */
+	@Override
 	protected int getBreedingAge() {
 		return breedingAge;
 	}
