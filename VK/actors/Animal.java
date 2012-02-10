@@ -12,6 +12,7 @@ import VK.view.Location;
  * @author Hylke de Vries
  * @version 0.0
  */
+
 public abstract class Animal implements Actor
 {
 	// Whether the animal is alive or not.
@@ -39,11 +40,20 @@ public abstract class Animal implements Actor
 		this.field = fieldInput;
 		setLocation(locationInput);
 	}
-
+	/**
+	 * Set the foodlevel for an Animal;
+	 * @param int newFoodlevel the new foodlevel
+	 */
+	
 	public void setFoodLevel(int newFoodLevel){
 		this.foodLevel = newFoodLevel;
 	}
 
+	/**
+	 * Returns the foodlevel
+	 * @return the foodlevel
+	 */
+	
 	public int getFoodLevel(){
 		return this.foodLevel;
 	}
@@ -182,7 +192,7 @@ public abstract class Animal implements Actor
 	/**
 	 * Check whether or not this fox is to give birth at this step.
 	 * New births will be made into free adjacent locations.
-	 * @param newFoxes A list to add newly born foxes to.
+	 * @param newAnimals A list to add newly born animals to.
 	 */
 	protected void giveBirth(List<Actor> newAnimals) {
 
