@@ -138,24 +138,49 @@ public class Rabbit extends Animal
 		return breedingAge;
 	}
 	
+    /**
+     * Gets the breeding age of a Rabbit
+     * @return int the age
+     */
+	
     @Override
 	protected int getMaxAge(){
     	return maxAge;
     }
+    
+    /**
+     * Gets the breeding probability of a Rabbit
+     * @return int the breeding probability
+     */
 	
 	@Override
 	protected double getBreedingProbability() {
 		return Fox.breedingProbability;
 	}
+	
+	/**
+	 * Gets the breeding probability as interger
+	 * @return int the breeding probability
+	 */
 
 	public static int getBreedingProbabilityInt() {
 		int i = ((int) (breedingProbability*100));
 		return i;
 	}
+	
+	/**
+	 * Set the breeding probability as integer
+	 * @param j
+	 */
 
 	public static void setBreedingProbabilityInt(int j) {
 		breedingProbability = ((double) j/100);
 	}
+	
+	/**
+	 * Makes the Rabbit spread the infection
+	 * @param Location The location of the rabbit and where the infection should start spreading
+	 */
 	
 	private void spreadInfection(@SuppressWarnings("unused") Location location) {
      Field field = getField();
@@ -175,11 +200,19 @@ public class Rabbit extends Animal
         }
 
     }
+	
+	/**
+	 * Makes the Rabbit sick
+	 */
     
     public void makeSick() {
     	this.isInfected = true;
     }
     
+    /**
+     * Returns the status of the Rabbit
+     * @return boolean infected or not
+     */
     public boolean getSick() {
     	return this.isInfected;
     }

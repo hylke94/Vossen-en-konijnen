@@ -15,8 +15,6 @@ import VK.view.Location;
  */
 public class Bear extends Animal
 {
-	// Characteristics shared by all foxes (static fields).
-
 	// The age at which a bear can start to breed.
 	public static int breedingAge = 15;
 	// The age to which a fox can live.
@@ -131,7 +129,6 @@ public class Bear extends Animal
 	 * Returns the breeding probability as integer
 	 * @return the breeding probability as interger
 	 */
-
 	public static int getBreedingProbabilityInt() {
 		int i = ((int) (breedingProbability*100));
 		return i;
@@ -141,7 +138,6 @@ public class Bear extends Animal
 	 * Sets the breeding probability
 	 * @param int j the new breeding probability
 	 */
-
 	public static void setBreedingProbabilityInt(int j) {
 		breedingProbability = ((double) j/100);
 	}
@@ -159,7 +155,6 @@ public class Bear extends Animal
 	 * Gets the minimum breeding age of a bear
 	 * @return int the breeding age
 	 */
-
 	@Override
 	protected int getBreedingAge() {
 		return breedingAge;
@@ -169,7 +164,6 @@ public class Bear extends Animal
 	 * Returns the maximum age a bear can get
 	 * @return the maximum age
 	 */
-
 	@Override
 	protected int getMaxAge(){
 		return maxAge;
